@@ -1,6 +1,8 @@
 import math
 from PIL import Image
+import time
 
+from streamlit_image_zoom import image_zoom
 import streamlit as st
 from streamlit_image_coordinates import streamlit_image_coordinates
 
@@ -229,6 +231,11 @@ elif st.session_state.page == "quiz":
 
 elif st.session_state.page == "spot":
 
+    if "answer_maker" not in st.session_state:
+        st.session_state.answer_maker = []
+
+    ADMIN_MODE = True
+
     back_button()
 
     st.title("🔍 틀린 그림 찾기")
@@ -251,19 +258,20 @@ elif st.session_state.page == "spot":
 
         st.subheader("문제 1")
 
-        c1, c2 = st.columns(2)
+        st.markdown("### 원본")
 
-        with c1:
-            st.image("images/1-1.png")
+        image_zoom(
+            Image.open("images/1-1.png")
+        )
 
-        with c2:
+        st.markdown("### 수정본")
 
-            img = Image.open("images/1-2.png")
+        img = Image.open("images/1-2.png")
 
-            value = streamlit_image_coordinates(
-                img,
-                key="problem1"
-            )
+        value = streamlit_image_coordinates(
+            img,
+            key="problem1"
+        )
 
         st.write(
             f"찾음: {len(st.session_state.found_1)} / {len(ANSWERS_1)}"
@@ -271,20 +279,23 @@ elif st.session_state.page == "spot":
 
         if value:
 
-            idx = check_click(
+            point = (
                 value["x"],
-                value["y"],
-                ANSWERS_1,
-                st.session_state.found_1
+                value["y"]
             )
 
-            if idx is not None:
+            st.info(
+                f"X={point[0]}, Y={point[1]}"
+            )
 
-                st.session_state.found_1.append(idx)
+            if point not in st.session_state.answer_maker:
+                st.session_state.answer_maker.append(point)
+        
+        with st.expander("좌표 확인"):
 
-                st.success("정답!")
-
-                st.rerun()
+            st.code(
+                repr(st.session_state.answer_maker)
+            )
 
     # 문제2
 
