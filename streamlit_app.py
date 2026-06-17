@@ -218,6 +218,11 @@ elif st.session_state.page == "quiz":
             st.session_state.quiz_stamp = True
             st.success("🏅 도장 획득!")
 
+            time.sleep(1)
+
+            st.session_state.page = "home"
+            st.rerun()
+
 # ==========================
 # 틀린 그림 찾기
 # ==========================
@@ -326,9 +331,12 @@ elif st.session_state.page == "spot":
 
             st.session_state.spot_stamp = True
 
-            st.success(
-                "🏅 틀린 그림 찾기 완료!"
-            )
+            st.success("🏅 도장 획득!")
+
+            time.sleep(1)
+
+            st.session_state.page = "home"
+            st.rerun()
 
 # ==========================
 # AI 체험
