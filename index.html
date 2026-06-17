@@ -166,130 +166,321 @@
       <section id="story" class="page-section hidden">
         <div class="subheader">
           <button class="nav-button" data-page="home">⬅ 홈으로</button>
-          <h2>🤖 AI 합성 피해 스토리</h2>
+          <h2>🤖 AI 합성 피해 스마트 시뮬레이션</h2>
         </div>
 
-        <div class="ai-card">
-          <p>이야기를 따라가며 사진 촬영 → 이름 입력 → 얼굴 선택 → SNS 게시 → 피해 메시지를 확인해보세요.</p>
+        <!-- Sleek Multi-Step Stepper -->
+        <div class="stepper-container">
+          <div class="step-item active" id="step-1">
+            <span class="step-badge">1</span>
+            <span class="step-label">이름 등록</span>
+          </div>
+          <div class="step-divider"></div>
+          <div class="step-item" id="step-2">
+            <span class="step-badge">2</span>
+            <span class="step-label">사진 선택</span>
+          </div>
+          <div class="step-divider"></div>
+          <div class="step-item" id="step-3">
+            <span class="step-badge">3</span>
+            <span class="step-label">얼굴 정밀 캡처</span>
+          </div>
+          <div class="step-divider"></div>
+          <div class="step-item" id="step-4">
+            <span class="step-badge">4</span>
+            <span class="step-label">피해 시뮬레이션</span>
+          </div>
+        </div>
 
-          <div class="story-stage-bar">
-            <span id="story-stage-text">이름을 입력하고 사진을 촬영해주세요.</span>
+        <div class="ai-card-premium">
+          <div class="story-intro">
+            <h3>🎭 나의 평범한 사진이 '딥페이크 무단 유포'로 이어지기까지</h3>
+            <p>직접 본인의 프로필을 만들고 사진을 등록해 가상의 온라인 공간에서 벌어지는 초상권 침해 피해를 사실적으로 체험해 보세요.</p>
           </div>
 
-          <div class="ai-actions">
-            <input id="ai-name-input" type="text" placeholder="이름을 입력하세요" class="text-input" />
-            <button id="ai-action-button" type="button" class="primary-button">사진 촬영 / 가져오기</button>
-            <button id="ai-remove-bg-button" type="button" class="secondary-button" disabled>배경제거</button>
+          <div class="story-stage-bar">
+            <span class="stage-pulse"></span>
+            <span id="story-stage-text">이름을 입력하고 사진을 촬영하거나 가져와주세요.</span>
+          </div>
+
+          <!-- Setup Controls Box -->
+          <div class="setup-controls-box">
+            <div class="input-glow-wrapper">
+              <i class="input-icon">👤</i>
+              <input id="ai-name-input" type="text" placeholder="체험할 이름을 입력하세요 (예: 지민)" class="text-input-premium" />
+            </div>
+            
+            <div class="button-group">
+              <button id="ai-action-button" type="button" class="premium-button btn-primary">
+                <span>📸 사진 촬영 / 파일 불러오기</span>
+              </button>
+              <button id="ai-remove-bg-button" type="button" class="premium-button btn-scan" disabled>
+                <span>⚡ 얼굴 배경제거 (마스킹)</span>
+              </button>
+            </div>
           </div>
 
           <input id="ai-image-input" type="file" accept="image/*" capture="environment" class="hidden" />
 
-          <div class="ai-preview-shell">
-            <div class="ai-preview-card">
-              <strong>선택한 사진</strong>
-              <div class="ai-image-select-shell">
-                <img id="ai-image-preview" alt="선택된 사진 미리보기" />
-                <div id="ai-selection-overlay" class="selection-overlay hidden">
-                  <div id="ai-selection-box" class="selection-box"></div>
+          <!-- Face Cropper Panels -->
+          <div class="ai-preview-grid">
+            <div class="cropper-card select-source">
+              <div class="card-title-bar">
+                <span class="card-dot-red"></span>
+                <strong>[원본 이미지 센서]</strong>
+              </div>
+              
+              <div class="ai-image-select-shell-premium">
+                <!-- Wrapper to ensure overlay fits the image perfectly, preventing coordinates from breaking -->
+                <div class="preview-image-wrapper" id="preview-image-wrapper">
+                  <img id="ai-image-preview" alt="선택된 사진 미리보기" />
+                  
+                  <div id="ai-selection-overlay" class="selection-overlay-premium hidden">
+                    <!-- Holographic corners -->
+                    <div class="hologram-corner top-left"></div>
+                    <div class="hologram-corner top-right"></div>
+                    <div class="hologram-corner bottom-left"></div>
+                    <div class="hologram-corner bottom-right"></div>
+                    <div id="ai-selection-box" class="selection-box-premium">
+                      <span class="crop-bracket"></span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Placeholder display when no image -->
+                <div class="upload-placeholder" id="upload-placeholder-view">
+                  <div class="placeholder-icon-animated">📸</div>
+                  <p class="main-text">등록된 사진이 없습니다</p>
+                  <p class="sub-text">위의 버튼을 클릭하여 사진을 추가해 주세요.</p>
                 </div>
               </div>
-              <small>이미지 위에서 드래그하여 얼굴 영역을 선택하세요.</small>
+              <small class="help-caption">💡 인물 정면 사진이 가장 좋습니다. 이미지 위를 <strong>마우스로 드래그(모바일은 터치 드래그)</strong>하여 얼굴 범위를 지정하세요.</small>
             </div>
-            <div class="ai-preview-card">
-              <strong>추출된 얼굴</strong>
-              <img id="ai-face-preview" alt="추출된 얼굴 미리보기" />
+
+            <div class="cropper-card extracted-target">
+              <div class="card-title-bar">
+                <span class="card-dot-green"></span>
+                <strong>[추출된 얼굴 피사체]</strong>
+              </div>
+              <div class="extracted-shell">
+                <img id="ai-face-preview" alt="추출된 얼굴 미리보기" class="extracted-img-fallback" />
+                <div class="face-grid-overlay"></div>
+              </div>
+              <small class="help-caption">💡 추출된 얼굴은 가상 시나리오의 합성본 소스로 활용되며 저장되지 않고 즉시 파기됩니다.</small>
             </div>
           </div>
 
-          <button id="story-restart-button" type="button" class="secondary-button">다시 시작</button>
-          <button id="story-post-button" type="button" class="primary-button hidden">SNS에 게시하기</button>
-
-          <div id="ai-status" class="ai-status">사진을 선택하고 얼굴 영역을 지정하세요.</div>
+          <!-- Bottom Footer Navigation -->
+          <div class="story-panel-footer">
+            <div id="ai-status" class="ai-status-premium">⚠️ 사진을 먼저 등록해 주셔야 체험을 진행할 수 있습니다.</div>
+            <div class="footer-action-buttons">
+              <button id="story-restart-button" type="button" class="premium-button btn-secondary">다시 설정</button>
+              <button id="story-post-button" type="button" class="premium-button btn-success hidden" disabled>
+                <span>🚀 가상 SNS에 사진 게시하기</span>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
       <section id="story-scroll" class="page-section hidden">
         <div class="subheader">
           <button class="nav-button" data-page="home">⬅ 홈으로</button>
-          <h2>📱 가상 상황</h2>
+          <h2>📱 실시간 모바일 합성 피해 시뮬레이터</h2>
         </div>
 
-        <div id="story-scroll-shell" class="story-scroll-shell">
-          <div class="story-scroll-instructions">
-            <p>게시물 아래를 터치하며 실시간으로 이어지는 상황을 확인하세요.</p>
+        <div class="story-interactive-layout">
+          
+          <!-- Left Side: Interactive Chat Drama & Decisions -->
+          <div class="story-instructions-panel">
+            
+            <!-- Current Story Step Description Card (Left) -->
+            <div class="story-narrative-card" id="story-narrative-card">
+              <div class="narrative-step-badge">SYSTEM READY</div>
+              <h3 id="narrative-title">시뮬레이터 준비 완료</h3>
+              <p id="narrative-desc">오른쪽 스마트폰 화면을 아무 곳이나 클릭(터치)하여 사건 시뮬레이션을 전개하세요.</p>
+              
+              <!-- Choice Grid (Moved to Left Column inside narrative card) -->
+              <div class="story-choice-grid hidden" id="narrative-choice-grid" style="margin-top: 20px;">
+                <button type="button" class="secondary-button story-choice" data-choice="angry">
+                  <strong>😡 게시판에 직접 반박하며 격하게 항의하기</strong>
+                  <span>"당장 사과하고 지워라" 댓글을 달며 키보드 배틀을 벌임</span>
+                </button>
+                <button type="button" class="secondary-button story-choice" data-choice="ignore">
+                  <strong>🫣 너무 무서우니 내 SNS 계정 지우고 숨기</strong>
+                  <span>증거도 남기지 않고 즉시 내 SNS를 탈퇴한 채 방치</span>
+                </button>
+                <button type="button" class="secondary-button story-choice" data-choice="safe">
+                  <strong>🛡️ 철저한 채집(PDF/캡처/URL) 후 112 신고 및 전문센터 접수</strong>
+                  <span>화면 캡처, 가해 정보 수집 후 디지털성범죄피해자지원센터 신고 지원 요청</span>
+                </button>
+              </div>
+              <div id="story-choice-result" class="story-choice-result hidden" style="margin-top: 15px;"></div>
+            </div>
           </div>
 
-          <div class="insta-card">
-            <div class="insta-header">
-              <div class="insta-avatar">🧑</div>
-              <div>
-                <strong id="story-post-user"></strong>
-                <span>게시됨 · 지금</span>
+          <!-- Right Side: Gorgeous High-End Smartphone Frame Mockup -->
+          <div class="phone-mockup-wrapper">
+            <div class="smartphone-frame">
+              <!-- Camera Notch -->
+              <div class="phone-notch">
+                <span class="camera-lens"></span>
+                <span class="speaker-grill"></span>
               </div>
-            </div>
-            <div class="synth-post-shell">
-              <img id="story-post-image" alt="게시물 이미지" />
-              <img id="story-face-overlay" class="hidden" alt="합성된 얼굴" />
-            </div>
-            <div class="insta-actions">
-              <span id="story-like-count">❤️ 12</span>
-              <span id="story-comment-count">💬 1</span>
-              <span id="story-share-count">↗ 공유 0</span>
-            </div>
-            <div class="insta-caption">
-              <strong id="story-post-user-caption"></strong>
-              <p id="story-post-caption">오늘 찍은 원본 사진을 올렸습니다.</p>
-            </div>
-          </div>
+              
+              <!-- Screen Header Status Bar -->
+              <div class="screen-status-bar">
+                <span class="status-time" id="phone-time-display">14:05</span>
+                <div class="status-icons">
+                  <span class="icon-signal">📶</span>
+                  <span class="icon-wifi">📶</span>
+                  <span class="icon-battery">🔋 84%</span>
+                </div>
+              </div>
 
-          <div class="story-scroll-section hidden" data-story-step="reaction">
-            <h3>반응이 올라갑니다</h3>
-            <p>친구들이 좋아요와 댓글을 남기며 원본 게시물이 빠르게 퍼지기 시작합니다.</p>
-            <div class="story-comment-list">
-              <p><strong>친구A</strong> 사진 잘 나왔다!</p>
-              <p><strong>친구B</strong> 어디서 찍은 거야?</p>
-            </div>
-          </div>
-          <div class="story-scroll-section hidden" data-story-step="spread">
-            <h3>공유가 늘어납니다</h3>
-            <p>알고 지내는 사람뿐 아니라 모르는 계정까지 게시물을 보기 시작합니다.</p>
-          </div>
-          <div class="story-scroll-section story-scroll-warning hidden" data-story-step="synthetic">
-            <h3>누군가 합성본을 유포합니다</h3>
-            <p>원본 사진의 얼굴이 다른 이미지에 합성되어 단체 채팅방과 SNS에 퍼집니다.</p>
-            <div id="synthetic-post-card" class="synthetic-post-card hidden">
-              <div class="synthetic-post-label">유포된 합성본</div>
-              <div class="synth-post-shell">
-                <img id="synthetic-post-image" src="images/AI.png" alt="유포된 합성본 이미지" />
-                <img id="synthetic-face-overlay" alt="합성된 얼굴" />
+              <!-- Push Notification Overlay (Sliding from Top) -->
+              <div class="phone-push-notification hidden" id="phone-push-notif">
+                <div class="push-header">
+                  <span class="push-app-logo">📸</span>
+                  <strong class="push-app-name" id="push-app-name">SNS 알림</strong>
+                  <span class="push-time">방금 전</span>
+                </div>
+                <div class="push-body">
+                  <p id="push-notif-text">누군가 내 게시물을 조회했습니다.</p>
+                </div>
+              </div>
+
+              <!-- Inner Screen Scroll Content Area -->
+              <div id="story-scroll-shell" class="story-scroll-shell">
+                <div class="story-scroll-instructions">
+                  <div class="scroll-bounce-arrow">👇</div>
+                  <p>화면 아무 곳이나 터치(클릭)하여 이야기를 전개해 주세요.</p>
+                </div>
+
+                <!-- Instagram Style original Post Card -->
+                <div class="insta-card">
+                  <div class="insta-header">
+                    <div class="insta-avatar">📸</div>
+                    <div>
+                      <strong id="story-post-user">사용자</strong>
+                      <span class="post-location">내 프로필</span>
+                    </div>
+                  </div>
+                  
+                  <div class="synth-post-shell">
+                    <img id="story-post-image" alt="게시물 이미지" />
+                    <!-- User's extracted face layered on original dynamically if needed, hidden by default -->
+                    <img id="story-face-overlay" class="hidden" alt="합성된 얼굴" />
+                  </div>
+                  
+                  <div class="insta-actions">
+                    <span id="story-like-count" class="action-stat">❤️ 12</span>
+                    <span id="story-comment-count" class="action-stat">💬 1</span>
+                    <span id="story-share-count" class="action-stat">↗ 공유 0</span>
+                  </div>
+                  
+                  <div class="insta-caption">
+                    <strong id="story-post-user-caption">사용자</strong>
+                    <p id="story-post-caption">오늘 찍은 원본 사진을 올렸습니다.</p>
+                  </div>
+                </div>
+
+                <!-- Story Section 1: Reaction -->
+                <div class="story-scroll-section hidden" data-story-step="reaction">
+                  <div class="sc-header">💬 균열의 시작 : 일상적인 업로드</div>
+                  <p>나의 평범한 일상 사진에 친구들이 즉시 "좋아요"를 누르고 댓글을 남깁니다. 즐거운 소통의 평범한 하루였습니다.</p>
+                  <div class="story-comment-list">
+                    <div class="comment-item">
+                      <span class="c-avatar">🧑</span>
+                      <p><strong>민우</strong> 오 오늘 사진 완전 잘 나왔는데? 대박!</p>
+                    </div>
+                    <div class="comment-item">
+                      <span class="c-avatar">👧</span>
+                      <p><strong>지혜</strong> 대박!! 이거 어디서 찍었어? 옷 브랜드 정보 좀!</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Story Section 2: Spread -->
+                <div class="story-scroll-section hidden" data-story-step="spread">
+                  <div class="sc-header">🌐 소리 없는 확산 : 무단 아카이빙</div>
+                  <p>갑자기 내 친구 목록에 없는 제3자의 익명 계정들이 내 얼굴 사진을 다운로드하고, 검색 태그를 달아 사설 온라인 서버로 복제해가기 시작합니다.</p>
+                  <div class="alert-inline">
+                    <span>⚠️</span>
+                    <p>내 동의 없이 사진 데이터가 무단 수집 장치 및 합성 전용 데이터 클라우드로 조용히 복사되었습니다.</p>
+                  </div>
+                </div>
+
+                <!-- Story Section 3: Synthetic -->
+                <div class="story-scroll-section story-scroll-warning hidden" data-story-step="synthetic">
+                  <div class="sc-header warning-title">🚨 악몽의 탄생 : 불법 딥페이크 합성</div>
+                  <p>지인으로부터 다급한 톡과 링크가 쏟아집니다. <strong>"야! 너 이거 봤어?? 불법 음해 단톡방에 너랑 똑 닮은 사진이 돌아다니는데?!"</strong> 누군가 내 얼굴 데이터를 도용해 인공지능 툴로 자극적인 합성본을 만들어 무단 유포했습니다.</p>
+                  
+                  <!-- Synthesized post layout -->
+                  <div id="synthetic-post-card" class="synthetic-post-card hidden">
+                    <div class="synthetic-post-label">❌ 무단 유포 중인 악의적 딥페이크 합성 이미지</div>
+                    <div class="synth-post-shell">
+                      <img id="synthetic-post-image" src="images/AI.png" alt="유포된 합성본 이미지" />
+                      <img id="synthetic-face-overlay" alt="합성된 얼굴" />
+                      
+                      <!-- Blocked post overlay for platform deletion simulation -->
+                      <div id="blocked-post-overlay" class="blocked-post-overlay">
+                        <span class="icon">❌</span>
+                        <p><strong>임시 조치 차단됨</strong><br>본 게시물은 정보통신망법 제44조의7 규정에 준하여 플랫폼 서비스 제공자에 의해 임시 차단 및 삭제되었습니다.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Story Section 4: Mocking -->
+                <div class="story-scroll-section story-scroll-warning hidden" data-story-step="mocking">
+                  <div class="sc-header warning-title">🔥 통제 불능 : 무차별적인 조롱과 가해</div>
+                  <p>커뮤니티의 익명 사용자들은 이 사진이 조작된 거짓 합성물인지 전혀 신경 쓰지 않습니다. 그저 자극적인 조롱거리로 소비하며 다른 단톡방에 복사해 나릅니다.</p>
+                  <div class="story-comment-list bad">
+                    <div class="comment-item malicious">
+                      <span class="c-avatar">👤</span>
+                      <p><strong>익명_93</strong> ㅋㅋㅋㅋ 대박 웃기네 이거 진짜야? 실화임?</p>
+                    </div>
+                    <div class="comment-item malicious">
+                      <span class="c-avatar">👤</span>
+                      <p><strong>stalker_xx</strong> 퀄리티 보소 ㅋㅋㅋ 이거 옆 방에도 다 뿌린다 ㅋㅋㅋ</p>
+                    </div>
+                    <div class="comment-item malicious">
+                      <span class="c-avatar">👤</span>
+                      <p><strong>익명_12</strong> 본인은 이거 알까? 얼굴 완전 박제당했네 ㅋㅋㅋ</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Story Section 5: Response & Decisions -->
+                <div class="story-scroll-section story-scroll-end hidden" data-story-step="response">
+                  <div class="sc-header end-title">🛡️ 골든 타임 : 당신의 생존 전략은?</div>
+                  <p>머릿속이 하얘지고 분노와 수치심에 손이 떨립니다. 이 급박한 불법 합성 유포 사태에 대처하는 가장 현명하고 완벽한 첫 조치는 무엇일까요?</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="story-scroll-section story-scroll-warning hidden" data-story-step="mocking">
-            <h3>조롱 댓글이 달립니다</h3>
-            <p>사람들은 사실 확인 없이 합성본을 보고 놀리거나 공유합니다.</p>
-            <div class="story-comment-list bad">
-              <p><strong>익명1</strong> 이거 진짜야? 웃기다.</p>
-              <p><strong>익명2</strong> 합성이라도 너무 이상한데?</p>
-              <p><strong>익명3</strong> 다른 데에도 올려봐.</p>
-            </div>
-          </div>
-          <div class="story-scroll-section story-scroll-end hidden" data-story-step="response">
-            <h3>어떻게 대처할까요?</h3>
-            <p>주인공은 지금 올바른 순서로 대응해야 합니다.</p>
-            <div class="story-choice-grid">
-              <button type="button" class="secondary-button story-choice" data-choice="angry">댓글로 바로 싸운다</button>
-              <button type="button" class="secondary-button story-choice" data-choice="ignore">무서우니 아무것도 하지 않는다</button>
-              <button type="button" class="secondary-button story-choice" data-choice="safe">증거 확보 후 신고하고 도움 요청</button>
-            </div>
-            <div id="story-choice-result" class="story-choice-result hidden"></div>
           </div>
         </div>
-        <div class="form-actions" style="margin-top:12px;">
-          <button class="primary-button" data-page="home">홈으로 돌아가기</button>
+
+        <!-- Sticky Bottom Navigation Footer -->
+        <div class="form-actions" style="margin-top:24px; justify-content: center;">
+          <button class="primary-button" data-page="home">🎯 포티켓 홈으로 돌아가기</button>
         </div>
       </section>
     </main>
+  </div>
+
+  <!-- Premium Info Modal for Story Simulation Intro -->
+  <div id="story-tip-modal" class="story-tip-modal hidden">
+    <div class="tip-modal-overlay"></div>
+    <div class="tip-modal-content">
+      <div class="tip-modal-icon">🚨</div>
+      <h3>초상권 침해 실시간 유포 시뮬레이션</h3>
+      <p>오른쪽 스마트폰 화면을 <strong>클릭(터치)하거나 아래로 스크롤</strong>해 보세요.<br><br>일상적으로 게시했던 내 사진 한 장이 가상의 온라인 공간에서 어떤 위협적인 연쇄 반응을 일으키는지 실시간으로 전개됩니다.</p>
+      <button id="close-tip-modal" class="premium-button btn-primary" style="margin-top: 20px; width: 100%;">
+        <span>시뮬레이션 시작하기</span>
+      </button>
+    </div>
   </div>
 
   <script src="script.js?v=20260617d"></script>
