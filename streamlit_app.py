@@ -230,6 +230,22 @@ elif st.session_state.page == "quiz":
 
 elif st.session_state.page == "spot":
 
+    def check_rect(x, y, answers, found):
+
+        for i, area in enumerate(answers):
+
+            if i in found:
+                continue
+
+            if (
+                area["x1"] <= x <= area["x2"]
+                and
+                area["y1"] <= y <= area["y2"]
+            ):
+                return i
+
+        return None
+
     PLAY_MODE = False
 
     back_button()
@@ -300,44 +316,57 @@ elif st.session_state.page == "spot":
 
     # 문제2
 
-    else:
+    if len(st.session_state.found_1) < len(ANSWERS_1):
 
-        st.subheader("문제 2")
+        st.subheader("문제 1")
 
-        c1, c2 = st.columns(2)
+        img1 = Image.open("images/1-1.png")
+        img2 = Image.open("images/1-2.png")
 
-        with c1:
-            st.image("images/2-1.png")
+        WIDTH = 700
 
-        with c2:
+        st.markdown("### 원본")
+        st.image(img1, width=WIDTH)
 
-            img = Image.open("images/2-2.png")
+        st.markdown("### 수정본")
 
-            value = streamlit_image_coordinates(
-                img,
-                key="problem2"
-            )
-
-        st.write(
-            f"찾음: {len(st.session_state.found_2)} / {len(ANSWERS_2)}"
+        value = streamlit_image_coordinates(
+            img2,
+            width=WIDTH,
+            key="problem1"
         )
 
-        if value:
+        st.write(
+            f"찾음: {len(st.session_state.found_1)} / {len(ANSWERS_1)}"
+        )
 
-            idx = check_click(
-                value["x"],
-                value["y"],
-                ANSWERS_2,
-                st.session_state.found_2
+        if value and PLAY_MODE:
+
+            x = value["x"]
+            y = value["y"]
+
+            st.info(f"X={x}, Y={y}")
+
+            idx = check_rect(
+                x,
+                y,
+                ANSWERS_1,
+                st.session_state.found_1
             )
 
             if idx is not None:
+        
+                st.session_state.found_1.append(idx)
 
-                st.session_state.found_2.append(idx)
-
-                st.success("정답!")
+                st.success(
+                    f"{ANSWERS_1[idx]['name']} 발견!"
+                )
 
                 st.rerun()
+        else:
+            st.code(
+                f"x={value['x']}, y={value['y']}"
+            )
 
         if len(st.session_state.found_2) == len(ANSWERS_2):
 
