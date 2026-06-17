@@ -34,7 +34,7 @@
             <div class="stamp-icon" id="spot-icon">⭕</div>
             <strong>틀린 그림 찾기</strong>
           </button>
-          <button class="stamp-card" data-page="ai" id="ai-card">
+          <button class="stamp-card" data-page="story" id="ai-card">
             <div class="stamp-icon" id="ai-icon">⭕</div>
             <strong>AI 합성 체험</strong>
           </button>
@@ -57,11 +57,11 @@
 
         <form id="quiz-form" class="quiz-form">
           <fieldset>
-            <legend>1. 사진 관련 피해를 예방하는 방법으로 적절하지 않은 것은?</legend>
-            <label><input type="radio" name="q1" value="a" required /> 친구 사진을 올리기 전에 동의를 받는다</label>
-            <label><input type="radio" name="q1" value="b" /> 개인정보가 보이는 사진은 올리지 않는다</label>
-            <label><input type="radio" name="q1" value="c" /> SNS 공개 범위를 설정한다</label>
-            <label><input type="radio" name="q1" value="d" /> 허락받고 찍었으니 마음대로 업로드한다</label>
+            <legend>1. 다음 중 사진 관련 피해를 예방하는 방법으로 적절하지 않은 것은?</legend>
+            <label><input type="radio" name="q1" value="a" required /> 친구 사진을 올리기 전에 동의를 받는다.</label>
+            <label><input type="radio" name="q1" value="b" /> 개인정보가 보이는 사진은 업로드하지 않는다.</label>
+            <label><input type="radio" name="q1" value="c" /> SNS 공개 범위를 설정한다.</label>
+            <label><input type="radio" name="q1" value="d" /> 사진 찍는 것을 허락받은 후 마음대로 SNS에 업로드한다.</label>
           </fieldset>
 
           <fieldset>
@@ -73,11 +73,51 @@
           </fieldset>
 
           <fieldset>
-            <legend>3. 원치 않는 사진이 게시되었을 때 가장 먼저 해야 할 행동은?</legend>
-            <label><input type="radio" name="q3" value="a" required /> 친구들에게 퍼뜨린다</label>
-            <label><input type="radio" name="q3" value="b" /> 증거 확보 후 도움 요청</label>
-            <label><input type="radio" name="q3" value="c" /> 참고 넘긴다</label>
-            <label><input type="radio" name="q3" value="d" /> 계정 삭제</label>
+            <legend>3. 인터넷에 사실을 드러내어 타인의 명예를 훼손한 경우 받을 수 있는 처벌은?</legend>
+            <label><input type="radio" name="q3" value="a" required /> 3천만원 이상 벌금</label>
+            <label><input type="radio" name="q3" value="b" /> 3년 이하 징역</label>
+            <label><input type="radio" name="q3" value="c" /> 3년 이상의 유기징역</label>
+            <label><input type="radio" name="q3" value="d" /> 7년 이하 징역</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>4. 딥페이크 편집물을 시청한 경우 받을 수 있는 처벌은?</legend>
+            <label><input type="radio" name="q4" value="a" required /> 처벌받지 않는다.</label>
+            <label><input type="radio" name="q4" value="b" /> 상습범일 경우에만 3년 이하 징역 또는 3천만원 이하 벌금을 받는다.</label>
+            <label><input type="radio" name="q4" value="c" /> 3년 이하 징역 또는 3천만원 이하 벌금</label>
+            <label><input type="radio" name="q4" value="d" /> 5천만원 이하 벌금</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>5. 원치 않는 나의 사진이 SNS에 게시되었을 때 가장 먼저 해야 할 행동은?</legend>
+            <label><input type="radio" name="q5" value="a" required /> 다른 친구들에게 널리 공유한다.</label>
+            <label><input type="radio" name="q5" value="b" /> 증거를 확보하고 도움을 요청한다.</label>
+            <label><input type="radio" name="q5" value="c" /> 그냥 참고 넘긴다.</label>
+            <label><input type="radio" name="q5" value="d" /> 나의 SNS 계정을 삭제한다.</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>6. 사진 피해를 당했을 때 확보해야 할 증거로 옳지 않은 것은?</legend>
+            <label><input type="radio" name="q6" value="a" required /> 게시물 캡처</label>
+            <label><input type="radio" name="q6" value="b" /> 작성자 기록</label>
+            <label><input type="radio" name="q6" value="c" /> 게시 날짜 기록</label>
+            <label><input type="radio" name="q6" value="d" /> 좋아요 수</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>7. 사진 피해를 당했을 때 피해자가 서비스 제공자에게 요청할 수 있는 것은?</legend>
+            <label><input type="radio" name="q7" value="a" required /> 피해 보상</label>
+            <label><input type="radio" name="q7" value="b" /> 가해자 휴대전화 압수</label>
+            <label><input type="radio" name="q7" value="c" /> 가해자 정보</label>
+            <label><input type="radio" name="q7" value="d" /> 게시물 삭제 또는 반박 내용 게재</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>8. 권리 침해 여부가 명확하지 않을 때 서비스 제공자는 게시물을 최대 (    )일 동안 임시 차단할 수 있다.</legend>
+            <label><input type="radio" name="q8" value="a" required /> 7일</label>
+            <label><input type="radio" name="q8" value="b" /> 14일</label>
+            <label><input type="radio" name="q8" value="c" /> 30일</label>
+            <label><input type="radio" name="q8" value="d" /> 60일</label>
           </fieldset>
 
           <div class="form-actions">
@@ -122,21 +162,135 @@
           <button id="spot-next" class="primary-button hidden">다음 문제</button>
         </div>
       </section>
+      <div id="spot-privacy-message" class="privacy-message hidden"></div>
 
-      <section id="ai" class="page-section hidden">
+      <section id="story" class="page-section hidden">
         <div class="subheader">
           <button class="nav-button" data-page="home">⬅ 홈으로</button>
-          <h2>🤖 AI 합성 피해 체험</h2>
+          <h2>🤖 AI 합성 피해 스토리</h2>
         </div>
 
         <div class="ai-card">
-          <p>현재 준비 중입니다.</p>
-          <button id="ai-complete" class="primary-button">임시 완료</button>
+          <p>이야기를 따라가며 사진 촬영 → 이름 입력 → 얼굴 선택 → SNS 게시 → 피해 메시지를 확인해보세요.</p>
+
+          <div class="story-stage-bar">
+            <span id="story-stage-text">이름을 입력하고 사진을 촬영해주세요.</span>
+          </div>
+
+          <div class="ai-actions">
+            <input id="ai-name-input" type="text" placeholder="이름을 입력하세요" class="text-input" />
+            <button id="ai-action-button" type="button" class="primary-button">사진 촬영 / 가져오기</button>
+            <button id="ai-remove-bg-button" type="button" class="secondary-button" disabled>배경제거</button>
+          </div>
+
+          <input id="ai-image-input" type="file" accept="image/*" capture="environment" class="hidden" />
+
+          <div class="ai-preview-shell">
+            <div class="ai-preview-card">
+              <strong>선택한 사진</strong>
+              <div class="ai-image-select-shell">
+                <img id="ai-image-preview" alt="선택된 사진 미리보기" />
+                <div id="ai-selection-overlay" class="selection-overlay hidden">
+                  <div id="ai-selection-box" class="selection-box"></div>
+                </div>
+              </div>
+              <small>이미지 위에서 드래그하여 얼굴 영역을 선택하세요.</small>
+            </div>
+            <div class="ai-preview-card">
+              <strong>추출된 얼굴</strong>
+              <img id="ai-face-preview" alt="추출된 얼굴 미리보기" />
+            </div>
+          </div>
+
+          <button id="story-restart-button" type="button" class="secondary-button">다시 시작</button>
+          <button id="story-post-button" type="button" class="primary-button hidden">SNS에 게시하기</button>
+
+          <div id="ai-status" class="ai-status">사진을 선택하고 얼굴 영역을 지정하세요.</div>
+        </div>
+      </section>
+
+      <section id="story-scroll" class="page-section hidden">
+        <div class="subheader">
+          <button class="nav-button" data-page="home">⬅ 홈으로</button>
+          <h2>📱 인스타 스토리</h2>
+        </div>
+
+        <div id="story-scroll-shell" class="story-scroll-shell">
+          <div class="story-scroll-instructions">
+            <p>게시물 아래를 터치하며 실시간으로 이어지는 상황을 확인하세요.</p>
+          </div>
+
+          <div class="insta-card">
+            <div class="insta-header">
+              <div class="insta-avatar">🧑</div>
+              <div>
+                <strong id="story-post-user"></strong>
+                <span>게시됨 · 지금</span>
+              </div>
+            </div>
+            <div class="synth-post-shell">
+              <img id="story-post-image" alt="게시물 이미지" />
+              <img id="story-face-overlay" class="hidden" alt="합성된 얼굴" />
+            </div>
+            <div class="insta-actions">
+              <span id="story-like-count">❤️ 12</span>
+              <span id="story-comment-count">💬 1</span>
+              <span id="story-share-count">↗ 공유 0</span>
+            </div>
+            <div class="insta-caption">
+              <strong id="story-post-user-caption"></strong>
+              <p id="story-post-caption">오늘 찍은 원본 사진을 올렸습니다.</p>
+            </div>
+          </div>
+
+          <div class="story-scroll-section hidden" data-story-step="reaction">
+            <h3>반응이 올라갑니다</h3>
+            <p>친구들이 좋아요와 댓글을 남기며 원본 게시물이 빠르게 퍼지기 시작합니다.</p>
+            <div class="story-comment-list">
+              <p><strong>친구A</strong> 사진 잘 나왔다!</p>
+              <p><strong>친구B</strong> 어디서 찍은 거야?</p>
+            </div>
+          </div>
+          <div class="story-scroll-section hidden" data-story-step="spread">
+            <h3>공유가 늘어납니다</h3>
+            <p>알고 지내는 사람뿐 아니라 모르는 계정까지 게시물을 보기 시작합니다.</p>
+          </div>
+          <div class="story-scroll-section story-scroll-warning hidden" data-story-step="synthetic">
+            <h3>누군가 합성본을 유포합니다</h3>
+            <p>원본 사진의 얼굴이 다른 이미지에 합성되어 단체 채팅방과 SNS에 퍼집니다.</p>
+            <div id="synthetic-post-card" class="synthetic-post-card hidden">
+              <div class="synthetic-post-label">유포된 합성본</div>
+              <div class="synth-post-shell">
+                <img id="synthetic-post-image" src="images/AI.png" alt="유포된 합성본 이미지" />
+                <img id="synthetic-face-overlay" alt="합성된 얼굴" />
+              </div>
+            </div>
+          </div>
+          <div class="story-scroll-section story-scroll-warning hidden" data-story-step="mocking">
+            <h3>조롱 댓글이 달립니다</h3>
+            <p>사람들은 사실 확인 없이 합성본을 보고 놀리거나 공유합니다.</p>
+            <div class="story-comment-list bad">
+              <p><strong>익명1</strong> 이거 진짜야? 웃기다.</p>
+              <p><strong>익명2</strong> 합성이라도 너무 이상한데?</p>
+              <p><strong>익명3</strong> 다른 데에도 올려봐.</p>
+            </div>
+          </div>
+          <div class="story-scroll-section story-scroll-end hidden" data-story-step="response">
+            <h3>어떻게 대처할까요?</h3>
+            <p>주인공은 지금 올바른 순서로 대응해야 합니다.</p>
+            <div class="story-choice-grid">
+              <button type="button" class="secondary-button story-choice" data-choice="angry">댓글로 바로 싸운다</button>
+              <button type="button" class="secondary-button story-choice" data-choice="ignore">무서우니 아무것도 하지 않는다</button>
+              <button type="button" class="primary-button story-choice" data-choice="safe">증거 확보 후 신고하고 도움 요청</button>
+            </div>
+            <div id="story-choice-result" class="story-choice-result hidden"></div>
+            <button class="primary-button" data-page="home">홈으로 돌아가기</button>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260617d"></script>
 </body>
 </html>
