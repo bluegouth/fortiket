@@ -268,24 +268,55 @@ p, label, span, strong {
   font-size: 0.95rem;
 }
 
+.spot-setup-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.spot-setup-output {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f4f1ee;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.spot-setup-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.spot-answer-areas,
 .spot-click-markers {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
+.spot-answer-area {
+  position: absolute;
+  border: 2px dashed rgba(60, 90, 216, 0.7);
+  border-radius: 8px;
+  background: rgba(60, 90, 216, 0.12);
+  opacity: 0.8;
+}
+
 .spot-click-marker {
   pointer-events: none;
   position: absolute;
-  inset: 0;
 }
 
 .permanent-marker,
 .spot-click-marker {
   position: absolute;
   pointer-events: none;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   display: grid;
@@ -301,13 +332,13 @@ p, label, span, strong {
 }
 
 .spot-click-marker {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
 }
 
 .spot-click-marker.visible {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1.05);
 }
 
 .spot-click-marker.hidden {
@@ -315,13 +346,30 @@ p, label, span, strong {
 }
 
 .spot-click-marker.correct {
-  border: 3px solid #3c9a5f;
-  background: rgba(80, 171, 99, 0.14);
+  border: 2px solid #3c9a5f;
+  background: rgba(80, 171, 99, 0.16);
 }
 
 .spot-click-marker.incorrect {
-  border: 3px solid #d33f49;
-  background: rgba(211, 63, 73, 0.08);
+  border: 2px solid #d33f49;
+  background: rgba(211, 63, 73, 0.1);
+}
+
+.spot-click-marker.incorrect::before,
+.spot-click-marker.incorrect::after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 2px;
+  background: #d33f49;
+}
+
+.spot-click-marker.incorrect::before {
+  transform: rotate(45deg);
+}
+
+.spot-click-marker.incorrect::after {
+  transform: rotate(-45deg);
 }
 
 .spot-click-marker.incorrect::before,

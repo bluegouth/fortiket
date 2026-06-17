@@ -94,9 +94,11 @@
           <h2>🔍 틀린 그림 찾기</h2>
         </div>
 
-        <div class="spot-info">
+          <div class="spot-info">
           <p id="spot-stage-text">문제를 풀어 도장을 얻어보세요.</p>
           <p id="spot-status">찾음: <strong id="spot-found-count">0</strong> / <strong id="spot-total-count">0</strong></p>
+          <div class="spot-setup-panel"></div>
+          <div id="spot-setup-output" class="spot-setup-output hidden"></div>
         </div>
 
         <div class="spot-layout">
@@ -108,6 +110,7 @@
             <h3>틀린 그림</h3>
             <div class="spot-image-shell" id="spot-shell">
               <img id="spot-right-image" src="images/1-2.png" alt="수정본 이미지" />
+              <div class="spot-answer-areas" id="spot-answer-areas"></div>
               <div class="spot-click-markers" id="spot-click-markers"></div>
               <div class="spot-click-marker hidden" id="spot-click-marker"></div>
             </div>
