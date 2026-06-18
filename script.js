@@ -88,7 +88,6 @@ const spotRightImage = document.getElementById("spot-right-image");
 const spotShell = document.getElementById("spot-shell");
 const spotClickMarkers = document.getElementById("spot-click-markers");
 const spotClickMarker = document.getElementById("spot-click-marker");
-const spotSetupOutput = document.getElementById("spot-setup-output");
 const spotReset = document.getElementById("spot-reset");
 const spotNext = document.getElementById("spot-next");
 const spotPrivacyMessage = document.getElementById("spot-privacy-message");
@@ -223,10 +222,7 @@ function hidePrivacyMessage() {
   spotPrivacyMessage.classList.add("hidden");
 }
 
-function renderSetupInfo() {
-  // setup UI removed; keep output hidden
-  if (spotSetupOutput) spotSetupOutput.classList.add("hidden");
-}
+
 
 function renderSpotMarkers() {
   spotClickMarkers.innerHTML = "";
@@ -312,45 +308,6 @@ function showPushNotification(title, text, appLogo = "📸", duration = 3000) {
   }, duration);
 }
 
-function updateSecurityMeter(widthPercent, statusText) {
-  const bar = document.getElementById("security-bar");
-  const text = document.getElementById("security-level-text");
-  if (bar) {
-    bar.style.width = `${widthPercent}%`;
-    if (widthPercent >= 80) {
-      bar.style.background = "linear-gradient(90deg, #10b981, #059669)";
-    } else if (widthPercent >= 50) {
-      bar.style.background = "linear-gradient(90deg, #eab308, #ca8a04)";
-    } else if (widthPercent >= 30) {
-      bar.style.background = "linear-gradient(90deg, #f97316, #ea580c)";
-    } else {
-      bar.style.background = "linear-gradient(90deg, #f43f5e, #e11d48)";
-    }
-  }
-  if (text) {
-    text.textContent = statusText;
-  }
-}
-
-function addLogToConsole(message, type = "sys") {
-  const container = document.getElementById("notif-logs-container");
-  if (!container) return;
-
-  const now = new Date();
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-  const seconds = String(now.getSeconds()).padStart(2, "0");
-  const timestamp = `${hours}:${minutes}:${seconds}`;
-
-  const logItem = document.createElement("div");
-  logItem.className = `notif-log-item ${type}`;
-  logItem.innerHTML = `
-    <span class="log-time">[${timestamp}]</span>
-    <p>${message}</p>
-  `;
-  container.appendChild(logItem);
-  container.scrollTop = container.scrollHeight;
-}
 
 function updateAiControls() {
   aiRemoveBgButton.disabled = !state.aiSelection;
@@ -623,11 +580,6 @@ async function publishStoryPost() {
     tipModal.classList.remove("hidden");
   }
 
-  // Initial Simulator boot logs
-  const logsContainer = document.getElementById("notif-logs-container");
-  if (logsContainer) logsContainer.innerHTML = "";
-  addLogToConsole("가상 위협 추적 시뮬레이터가 성공적으로 마운트되었습니다.", "sys");
-  addLogToConsole("네트워크 상태 분석 모듈: ONLINE", "sys");
 }
 
 function showOriginalPost() {
@@ -684,39 +636,26 @@ function applyStoryStepEffect(step) {
   if (step === "reaction") {
     triggerReactions();
     showPushNotification("SNS 알림", `${state.storyName || "지민"}님의 피드에 댓글과 좋아요가 등록됩니다!`, "💬");
-    updateSecurityMeter(100, "안전 (Lv.4)");
-    addLogToConsole("원본 게시물이 성공적으로 SNS 데이터베이스에 인덱싱되었습니다.", "ok");
-    addLogToConsole("정상 트래픽 감지: 주변 친구들과의 안전한 상호소통 중.", "ok");
   }
 
   if (step === "spread") {
     triggerReactions(8, { likes: 148, comments: 24, shares: 12 });
     showPushNotification("보안 경고", "외부 IP 대역에서 대규모의 사진 이미지 무단 크롤링 탐지!", "🌐");
-    updateSecurityMeter(70, "주의 (Lv.3) : 무단 아카이빙 감지");
-    addLogToConsole("경고: 제3자 크롤러 봇에 의해 원본 고해상도 초상이 백업 폴더로 다운로드됨.", "warn");
-    addLogToConsole("유출 발원지: 익명 다크서버 스크래핑 IP 탐지.", "warn");
   }
 
   if (step === "synthetic") {
     showSyntheticPost();
     showPushNotification("긴급 알림", "불법 유포 채널(텔레그램 방) 내 딥페이크 악성 합성본 생성 및 배포 감지!", "🚨");
-    updateSecurityMeter(40, "경고 (Lv.2) : 딥페이크 불법 합성본 탐지");
-    addLogToConsole("치명적: 추출된 본인 얼굴 좌표를 기반으로 한 악의적 합성 이미지 발견.", "crit");
-    addLogToConsole("유포 채널: 보안 단체 메신저방 및 암호화 커뮤니티", "crit");
   }
 
   if (step === "mocking") {
     showSyntheticPost();
     showPushNotification("트래픽 폭주", "유포된 가짜 합성물에 대한 제3자 악성 리트윗 및 전파 수치 급증!", "🔥");
-    updateSecurityMeter(15, "위험 (Lv.1) : 무차별적인 사이버 불링 확산");
-    addLogToConsole("치명적: 사실 확인 없는 2차 조롱 및 단톡방 리포스팅이 연쇄 반응을 일으킴.", "crit");
-    addLogToConsole("시스템 긴급: 피해자의 디지털 평판 피해 심각 단계 돌입", "crit");
   }
 
   if (step === "response") {
     showSyntheticPost();
     showPushNotification("대응 긴급 명령", "보안 등급 차단을 위해 안전 행동 수칙에 맞게 대응 조치하십시오.", "🛡️");
-    addLogToConsole("골든 타임 가동: 가용한 보안 조치들을 검토하여 네트워크를 방어하세요.", "warn");
     const choiceGrid = document.getElementById("narrative-choice-grid");
     if (choiceGrid) {
       choiceGrid.classList.remove("hidden");
@@ -796,21 +735,18 @@ function applyStoryStepEffect(step) {
         btnCenter.classList.add("completed");
         badgeCenter.textContent = "접수 완료";
         showPushNotification("피해지원센터 접수 완료", "상담 및 유포 모니터링 연계 조치가 등록되었습니다.", "🛡️");
-        addLogToConsole("피해지원센터 접수 완료: 디지털성범죄 피해자지원센터(02-735-8994)로 전문 유포 파일 삭제 지원 서비스가 신청되었습니다.", "ok");
       });
 
       btnKcsc.addEventListener("click", () => {
         btnKcsc.classList.add("completed");
         badgeKcsc.textContent = "심의 완료";
         showPushNotification("방심위 심의 신청 완료", "해당 웹사이트 주소(URL)에 대한 긴급 접속 차단 심의가 청구되었습니다.", "🏛️");
-        addLogToConsole("방심위 심의 신청 완료: 방송통신심의위원회에 정보통신망법 위반 불법정보 및 딥페이크 성적 허위영상물 심의 및 차단 요청이 등록되었습니다.", "ok");
       });
 
       btnPolice.addEventListener("click", () => {
         btnPolice.classList.add("completed");
         badgePolice.textContent = "신고 완료";
         showPushNotification("경찰청 신고 접수 완료", "사이버 범죄 수사관에 의해 가해자 추적 및 형사 처벌 절차가 개시되었습니다.", "🚨");
-        addLogToConsole("경찰 신고 접수 완료: 경찰청 사이버 수사망을 통해 유포 단톡방 캡처본 및 피해 URL 채집 증거 정보가 수사 민원용으로 공식 전달되었습니다.", "ok");
       });
 
       btnProvider.addEventListener("click", () => {
@@ -827,11 +763,11 @@ function applyStoryStepEffect(step) {
 
         let progress = 0;
         const steps = [
-          { pct: 15, text: "가상의 플랫폼사 정보통신법 제44조의7에 근거한 임시 조치 명령 접수...", log: "임시차단: 가상의 플랫폼사 정보통신법 제44조의7에 근거한 임시 조치 명령 접수.", logType: "ok" },
-          { pct: 35, text: "불법 공유 단톡방 내 합성 파일 원본 파일 경로 추출 중...", log: "해시추출: 불법 유포 파일에 대한 이미지 해시값(DNA) 및 메타데이터 추출 완료.", logType: "ok" },
-          { pct: 60, text: "플랫폼 내 불법 합성물 서버 매칭 필터링 실행 중...", log: "서버차단: SNS 데이터베이스 내 동일 해시 합성 이미지 일괄 블라인드 및 접근 제한 조치.", logType: "ok" },
-          { pct: 85, text: "실시간 스크래핑 방지 및 인덱싱 완전 삭제 동기화 중...", log: "웹 캐시 필터링: 주요 포털 및 피드 캐시 메모리 내 인덱스 삭제 동기화 완료.", logType: "ok" },
-          { pct: 100, text: "플랫폼 내 합성 사진 차단 및 임시조치 완료!", log: "조치 완료: 서비스 제공자 기술조치에 따라 가해 게시물 임시차단 및 삭제 완료.", logType: "ok" }
+          { pct: 15, text: "가상의 플랫폼사 정보통신법 제44조의7에 근거한 임시 조치 명령 접수..." },
+          { pct: 35, text: "불법 공유 단톡방 내 합성 파일 원본 파일 경로 추출 중..." },
+          { pct: 60, text: "플랫폼 내 불법 합성물 서버 매칭 필터링 실행 중..." },
+          { pct: 85, text: "실시간 스크래핑 방지 및 인덱싱 완전 삭제 동기화 중..." },
+          { pct: 100, text: "플랫폼 내 합성 사진 차단 및 임시조치 완료!" }
         ];
 
         let currentStepIdx = 0;
@@ -845,7 +781,6 @@ function applyStoryStepEffect(step) {
           if (currentStepIdx < steps.length && progress >= steps[currentStepIdx].pct) {
             const step = steps[currentStepIdx];
             if (delStep) delStep.textContent = step.text;
-            addLogToConsole(step.log, step.logType);
             currentStepIdx++;
           }
 
@@ -912,8 +847,6 @@ function applyStoryStepEffect(step) {
     }, 280);
 
     showPushNotification("새 게시물 게시 완료", "안전하게 게시물이 등록되었습니다.", "🔒");
-    addLogToConsole("게시 완료: 비공개 보관소 내에 새로운 미디어가 안전하게 로드되었습니다.", "ok");
-    addLogToConsole("시뮬레이션 완료: 피해 극복 및 예방 솔루션을 완벽하게 이행하였습니다!", "sys");
 
     if (!state.aiStamp) {
       state.aiStamp = true;
@@ -1034,7 +967,6 @@ document.addEventListener("click", (e) => {
     storyChoiceResult.classList.add("success");
     storyChoiceResult.textContent = "정답입니다! 확실하게 증거를 수집한 후 실시간 삭제 센터(디안방) 및 방심위 유포 정지 심의 전송, 계정 보안 설정을 실시간 연계 조치합니다.";
 
-    updateSecurityMeter(50, "진행 중 (Lv.3) : 긴급 우회 삭제 프로토콜 가동");
     appendInteractiveRecoveryStages();
   } else {
     btn.classList.add("wrong");
@@ -1045,8 +977,6 @@ document.addEventListener("click", (e) => {
 
     if (btn.dataset.choice === "angry") {
       storyChoiceResult.textContent = "댓글로 욕설을 하거나 폭로전을 펼치면 오히려 가해자가 합성 링크를 가린 채 도망치고 사건의 무마를 꾀할 우려가 큽니다. 침착하게 먼저 디지털 증거를 확보해야 합니다.";
-      updateSecurityMeter(10, "위험 (Lv.1) : 직접 항의로 가해자 증거 은닉 시도");
-      addLogToConsole("경고: 피해자의 개인적인 다이렉트 항의로 인해 가해 대화방 폭파 유도 및 증거 인멸 가능성 증가.", "warn");
 
       chatBubble.className = "simulated-messenger-room dynamic-append";
       chatBubble.innerHTML = `
@@ -1086,8 +1016,6 @@ document.addEventListener("click", (e) => {
       `;
     } else {
       storyChoiceResult.textContent = "무서워 숨고 아무 조치 없이 혼자 SNS만 삭제해버리면, 백그라운드 클라우드와 음성 텔레그램방 등을 통해 영원히 보이지 않는 곳에서 지속 복제 및 유포될 수 있습니다. 용기를 내어 도움을 받아 유포를 삭제 처리해야 합니다.";
-      updateSecurityMeter(5, "위험 (Lv.1) : 무대처 방치로 인한 영구 복제 노출");
-      addLogToConsole("경고: 피해 데이터 방치 및 가해 대화방 지속 활동 방관으로 인한 3차, 4차 다크웹 재유포 확률 최대치 수렴.", "warn");
 
       chatBubble.className = "simulated-messenger-room dynamic-append";
       chatBubble.innerHTML = `
@@ -1575,12 +1503,7 @@ function appendInteractiveRecoveryStages() {
     btnApplyPrivacy.style.background = "linear-gradient(135deg, #10b981, #059669)";
     btnApplyPrivacy.style.color = "#fff";
 
-    addLogToConsole("계정 보안 갱신: 프로필 및 스토리의 전체 공개 설정이 '비공개(Private)'로 즉시 전환됨.", "ok");
-    addLogToConsole("다운로드 차단: DRM 소스 무단 스크래핑 방지 보안 계층 가동.", "ok");
-    addLogToConsole("인덱싱 제어: Googlebot/Yeti 검색 수집 거부(robots-noindex) 메타 태그 업데이트 완료.", "ok");
-    addLogToConsole("보안 강화 성공: 이제 외부 크롤러가 초상 이미지를 스크래핑할 수 없습니다.", "ok");
 
-    updateSecurityMeter(100, "안전 (Lv.5) : 비공개 계정 및 크롤링 완전 방어");
     showPushNotification("보안 설정 완료", "계정의 공개 범위 및 방어 설정이 실시간 적용되었습니다.", "🔒");
 
     privacyPrompt.classList.remove("hidden");
