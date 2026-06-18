@@ -267,13 +267,6 @@ p, label, span, strong {
   gap: 18px;
 }
 
-.ai-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-
 .text-input {
   min-width: 220px;
   flex: 1 1 240px;
@@ -282,22 +275,6 @@ p, label, span, strong {
   border: 1px solid rgba(34, 34, 34, 0.14);
   background: #fff;
   color: #222;
-}
-
-.ai-preview-shell {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.ai-preview-card {
-  background: #f4f1ee;
-  border-radius: 18px;
-  padding: 16px;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .ai-image-select-shell {
@@ -332,25 +309,6 @@ p, label, span, strong {
 
 .selection-overlay.hidden {
   display: none;
-}
-
-.ai-preview-card small {
-  display: block;
-  color: #555;
-  margin-top: 8px;
-}
-
-.ai-preview-card strong {
-  display: block;
-  font-size: 1rem;
-}
-
-.ai-preview-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 14px;
-  background: #fff;
 }
 
 .ai-status {
@@ -790,21 +748,6 @@ p, label, span, strong {
   flex-direction: column;
   gap: 20px;
 }
-.tip-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 20px;
-}
-.tip-card h3 {
-  font-size: 1.15rem;
-  color: #38bdf8;
-  margin-bottom: 8px;
-}
-.tip-card p {
-  font-size: 0.95rem;
-  color: #cbd5e1;
-}
 
 /* Premium Left Narration Card */
 .story-narrative-card {
@@ -893,7 +836,7 @@ p, label, span, strong {
 #story-face-overlay, #synthetic-face-overlay {
   position: absolute;
   left: 41.5% !important;
-  top: 14.5% !important;
+  top: 11.5% !important;
   width: 17% !important;
   height: 17% !important;
   aspect-ratio: 1 / 1 !important;
@@ -913,7 +856,6 @@ p, label, span, strong {
 .story-scroll-shell .story-scroll-section > p {
   display: none !important;
 }
-
 
 .phone-notch {
   position: absolute;
@@ -1050,7 +992,6 @@ p, label, span, strong {
   background: #1e1f2f;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 16px;
-  overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 .insta-header {
@@ -1288,12 +1229,6 @@ p, label, span, strong {
 .spot-image-shell {
   position: relative;
   overflow: hidden;
-}
-
-.spot-helper {
-  margin: 6px 0 0;
-  color: #555;
-  font-size: 0.95rem;
 }
 
 
@@ -1960,86 +1895,35 @@ p, label, span, strong {
   }
 }
 
-.sc-popup-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 8px;
-}
-.sc-popup-icon {
-  font-size: 1.3rem;
-  background: rgba(244, 63, 94, 0.15);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.sc-popup-meta {
-  display: flex;
-  flex-direction: column;
-}
-.sc-popup-meta strong {
-  font-size: 0.8rem;
-  color: #f1f5f9;
-}
-.sc-popup-meta span {
-  font-size: 0.68rem;
-  color: #94a3b8;
-}
-.sc-popup-body {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.sc-popup-text {
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: #cbd5e1;
-  margin: 0;
-}
-.sc-popup-guide {
-  font-size: 0.74rem;
-  font-weight: 600;
-  background: rgba(244, 63, 94, 0.1);
-  color: #f43f5e;
-  border: 1px solid rgba(244, 63, 94, 0.2);
-  border-radius: 6px;
-  padding: 6px;
-  text-align: center;
-}
-
 /* Photo fly out animation style */
 /* Photo fly out animation style */
 .fly-out-active {
-  animation: flyOutAway 1.4s cubic-bezier(0.25, 1, 0.3, 1) forwards !important;
+  animation: flyOutAway 0.25s cubic-bezier(0.25, 1, 0.3, 1) forwards !important;
 }
 
 @keyframes flyOutAway {
   0% {
-    transform: scale(1) translate(0, 0) rotate(0deg);
-    filter: drop-shadow(0 0 0px rgba(56, 189, 248, 0)) blur(0px);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
-  15% {
-    transform: scale(1.3) translate(-10px, 15px) rotate(-12deg);
-    filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.8)) blur(0px);
-    opacity: 1;
+
+  70% {
+    transform: translateY(110px) scale(0.985);
+    opacity: 0.6;
   }
+
   100% {
-    transform: scale(0.05) translate(380px, -780px) rotate(480deg);
-    filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.9)) blur(6px);
+    transform: translateY(160px) scale(0.97);
     opacity: 0;
   }
 }
 
-/* Allow parent container to overflow so that fly-away is fully visible across the screen */
-.synth-post-shell.allow-overflow,
-.synthetic-post-card.allow-overflow {
-  overflow: visible !important;
+#synthetic-image-group{
+    position:relative;
+}
+
+#synthetic-post-image{
+    display:block;
 }
 
 /* Animated Conversational Chat Bubble inside the Smartphone screen feed */
@@ -2260,135 +2144,15 @@ p, label, span, strong {
   color: #fff !important;
 }
 
-/* Dinosaur AR Layout */
-.dino-interactive-layout {
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 24px;
-  margin-top: 20px;
-}
-
 @media (max-width: 900px) {
   .dino-interactive-layout {
     grid-template-columns: 1fr;
   }
 }
 
-.dino-camera-view-card {
-  background: #0f172a;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-}
-
-.camera-lens-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: #94a3b8;
-}
-
-.sensor-dot {
-  width: 8px;
-  height: 8px;
-  background: #ef4444;
-  border-radius: 50%;
-  animation: pulse-red 1s infinite alternate;
-}
-
 @keyframes pulse-red {
   0% { opacity: 0.3; }
   100% { opacity: 1; box-shadow: 0 0 8px #ef4444; }
-}
-
-/* AR Viewfinder Shell */
-.dino-viewfinder-shell {
-  width: 100%;
-  height: 420px;
-  border-radius: 14px;
-  position: relative;
-  overflow: hidden;
-  background: #020617;
-  border: 2px solid #334155;
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
-}
-
-/* Camera Grid Lines */
-.camera-grid-lines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 10;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-}
-.camera-grid-lines::before {
-  content: '';
-  position: absolute;
-  top: 33.33%;
-  left: 0;
-  width: 100%;
-  height: 33.33%;
-  border-top: 1px dashed rgba(255, 255, 255, 0.12);
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
-}
-.camera-grid-lines::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 33.33%;
-  width: 33.33%;
-  height: 100%;
-  border-left: 1px dashed rgba(255, 255, 255, 0.12);
-  border-right: 1px dashed rgba(255, 255, 255, 0.12);
-}
-
-#dino-webcam-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-#dino-bg-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  transition: opacity 0.3s ease;
-}
-
-/* Interactive Sprite Wrapper */
-.interactive-dino-sprite {
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  cursor: grab;
-  z-index: 5;
-  user-select: none;
-  touch-action: none;
-}
-.interactive-dino-sprite:active {
-  cursor: grabbing;
-}
-
-.dino-svg {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.55));
 }
 
 /* Leg walk keyframe animations */
@@ -2401,15 +2165,6 @@ p, label, span, strong {
   100% { transform: rotate(-22deg); }
 }
 
-.dino-left-leg {
-  transform-origin: 38px 72px;
-  animation: walk-left 0.45s infinite alternate ease-in-out;
-}
-.dino-right-leg {
-  transform-origin: 48px 72px;
-  animation: walk-right 0.45s infinite alternate ease-in-out;
-}
-
 /* Wing flap animations for Pteranodon */
 @keyframes flap-left {
   0% { transform: rotate(-18deg); }
@@ -2420,254 +2175,9 @@ p, label, span, strong {
   100% { transform: rotate(-18deg); }
 }
 
-.pteranodon-left-wing {
-  transform-origin: 50px 45px;
-  animation: flap-left 0.35s infinite alternate ease-in-out;
-}
-.pteranodon-right-wing {
-  transform-origin: 50px 45px;
-  animation: flap-right 0.35s infinite alternate ease-in-out;
-}
-
-/* Approved Polaroid stamp watermark */
-.polaroid-certified-stamp {
-  position: absolute;
-  bottom: 25px;
-  right: 25px;
-  border: 4px solid #10b981;
-  color: #10b981;
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 900;
-  padding: 4px 12px;
-  border-radius: 8px;
-  transform: rotate(-15deg);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  z-index: 15;
-  background: rgba(15, 23, 42, 0.7);
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-}
-
-/* Camera click shutter flash overlay */
-.camera-flash-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 100;
-}
-.camera-flash-overlay.flash-active {
-  animation: shutterFlash 0.35s ease-out;
-}
-
 @keyframes shutterFlash {
   0% { opacity: 1; }
   100% { opacity: 0; }
-}
-
-/* Right Controls Panel styles */
-.dino-controls-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.dino-narrative-card {
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-
-.control-section-header {
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: #38bdf8;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 14px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding-bottom: 4px;
-}
-
-/* Buttons for Preset BG and Dinosaur Selection */
-.dino-bg-presets, .dino-presets {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.preset-btn, .dino-preset-btn {
-  background: rgba(15, 23, 42, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 10px;
-  color: #cbd5e1;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: all 0.25s ease;
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-
-.preset-btn:hover, .dino-preset-btn:hover {
-  background: rgba(56, 189, 248, 0.08);
-  border-color: rgba(56, 189, 248, 0.3);
-  transform: translateY(-1px);
-}
-
-.preset-btn.active, .dino-preset-btn.active {
-  background: rgba(56, 189, 248, 0.15) !important;
-  border-color: #38bdf8 !important;
-  color: #38bdf8 !important;
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-}
-
-.dino-emoji {
-  font-size: 1.6rem;
-}
-
-.bg-source-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.dino-action-btn {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1.5px dashed rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  padding: 8px 12px;
-  color: #f1f5f9;
-  font-size: 0.76rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.dino-action-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: #38bdf8;
-}
-
-/* Sliders */
-.slider-adjustment-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: rgba(15,23,42,0.3);
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.04);
-}
-
-.adjustment-item {
-  display: grid;
-  grid-template-columns: 80px 1fr 45px;
-  align-items: center;
-  gap: 12px;
-}
-
-.adj-label {
-  font-size: 0.74rem;
-  color: #94a3b8;
-  font-weight: 600;
-}
-
-.adj-val {
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: #38bdf8;
-  text-align: right;
-}
-
-.premium-slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: #334155;
-  outline: none;
-}
-.premium-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #38bdf8;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-  transition: transform 0.1s;
-}
-.premium-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-/* Polaroid Card Completion styling */
-.polaroid-card {
-  max-width: 440px !important;
-  background: #1e293b !important;
-  border: 1px solid rgba(255,255,255,0.1) !important;
-}
-
-.polaroid-frame {
-  background: #fff;
-  padding: 16px 16px 24px 16px;
-  border-radius: 10px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.polaroid-photo-area {
-  width: 100%;
-  height: 270px;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #000;
-  position: relative;
-}
-
-#polaroid-composite-container canvas {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.polaroid-caption {
-  text-align: center;
-  padding-top: 10px;
-}
-.polaroid-caption h3 {
-  font-family: 'Outfit', sans-serif;
-  color: #1e293b;
-  font-size: 1.15rem;
-  font-weight: 800;
-  margin: 0;
-  letter-spacing: -0.5px;
-}
-.polaroid-caption p {
-  color: #64748b;
-  font-size: 0.78rem;
-  font-weight: 600;
-  margin: 4px 0 0 0;
 }
 
 /* Radar Sweep and Blink Animations */

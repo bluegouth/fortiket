@@ -186,12 +186,12 @@
           <div class="step-divider"></div>
           <div class="step-item" id="step-3">
             <span class="step-badge">3</span>
-            <span class="step-label">얼굴 정밀 캡처</span>
+            <span class="step-label">얼굴 캡처</span>
           </div>
           <div class="step-divider"></div>
           <div class="step-item" id="step-4">
             <span class="step-badge">4</span>
-            <span class="step-label">피해 시뮬레이션</span>
+            <span class="step-label">AI 합성 피해 시뮬레이션</span>
           </div>
         </div>
 
@@ -384,14 +384,14 @@
                   
                   <div class="insta-caption">
                     <strong id="story-post-user-caption">사용자</strong>
-                    <p id="story-post-caption">오늘 찍은 원본 사진을 올렸습니다.</p>
+                    <p id="story-post-caption">오늘 찍은 사진을 올렸습니다.</p>
                   </div>
                 </div>
 
                 <!-- Story Section 1: Reaction -->
                 <div class="story-scroll-section hidden" data-story-step="reaction">
                   <div class="sc-header">💬 균열의 시작 : 일상적인 업로드</div>
-                  <p>나의 평범한 일상 사진에 친구들이 즉시 "좋아요"를 누르고 댓글을 남깁니다. 즐거운 소통의 평범한 하루였습니다.</p>
+                  <p>나의 평범한 일상 사진에 친구들이 즉시 "좋아요"를 누르고 댓글을 남깁니다. 즐겁게 소통하는 평범한 하루였습니다.</p>
                   <div class="story-comment-list">
                     <div class="comment-item">
                       <span class="c-avatar">🧑</span>
@@ -423,9 +423,11 @@
                   <div id="synthetic-post-card" class="synthetic-post-card hidden">
                     <div class="synthetic-post-label">❌ 무단 유포 중인 악의적 딥페이크 합성 이미지</div>
                     <div class="synth-post-shell">
-                      <img id="synthetic-post-image" src="images/AI.png" alt="유포된 합성본 이미지" />
-                      <img id="synthetic-face-overlay" alt="합성된 얼굴" />
-                      
+                      <div id="synthetic-image-group">
+                        <img id="synthetic-post-image" src="images/AI.png" alt="유포된 합성본 이미지" />
+                        <img id="synthetic-face-overlay" alt="합성된 얼굴" />
+                      </div>
+
                       <!-- Blocked post overlay for platform deletion simulation -->
                       <div id="blocked-post-overlay" class="blocked-post-overlay">
                         <span class="icon">❌</span>
@@ -478,8 +480,8 @@
     <div class="tip-modal-overlay"></div>
     <div class="tip-modal-content">
       <div class="tip-modal-icon">🚨</div>
-      <h3>초상권 침해 실시간 유포 시뮬레이션</h3>
-      <p>오른쪽 스마트폰 화면을 <strong>클릭(터치)하거나 아래로 스크롤</strong>해 보세요.<br><br>일상적으로 게시했던 내 사진 한 장이 가상의 온라인 공간에서 어떤 위협적인 연쇄 반응을 일으키는지 실시간으로 전개됩니다.</p>
+      <h3>AI 합성 피해 시뮬레이션</h3>
+      <p>오른쪽 스마트폰 화면을<br><strong>클릭(터치)하거나 아래로 스크롤</strong>해 보세요.<br><br>이 시뮬레이션은 사용자에게<br>불쾌감을 주는 내용이 포함될 수 있습니다.</p>
       <button id="close-tip-modal" class="premium-button btn-primary" style="margin-top: 20px; width: 100%;">
         <span>시뮬레이션 시작하기</span>
       </button>
@@ -493,11 +495,11 @@
       <div class="tip-modal-icon" style="color: #fbbf24; font-size: 3.5rem; text-shadow: 0 0 20px rgba(251, 191, 36, 0.5); animation: pulse 2s infinite;">🦖</div>
       <h3 style="color: #fbbf24; font-size: 1.6rem; font-weight: 800; margin-top: 10px; margin-bottom: 12px; letter-spacing: -0.5px;">🎁 특별 상품 미션!</h3>
       <p style="font-size: 1.15rem; line-height: 1.6; margin: 16px 0; color: #f8fafc; font-weight: 800; text-align: center; word-break: keep-all;">
-        학교에서 공룡을 찾아 사진을 찍으면 특별 상품이 있습니다.
+        학교에서 공룡을 찾아 사진을 찍으면 추가 상품이 있습니다.
       </p>
       <p style="font-size: 0.92rem; line-height: 1.5; color: #94a3b8; text-align: center; margin-bottom: 24px; word-break: keep-all;">
-        학교 건물 및 광장을 돌아다니는 <strong>진짜 공룡(공룡 옷을 입은 스태프)</strong>을 찾아 사진을 촬영해 보세요!<br><br>
-        현장에서 스태프에게 촬영한 사진을 직접 보여주시면 특별한 상품을 선물로 드립니다! 🎁✨
+        학교 건물에서 <strong>공룡</strong>을 찾아 사진을 촬영해 보세요!<br><br>
+        학생회에게 촬영한 사진을 보여주시면 추가 상품을 드립니다! 🎁✨
       </p>
       <button id="close-dino-unlock-modal" class="premium-button" style="margin-top: 10px; width: 100%; background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); border: none; color: #020617; font-weight: 800; font-size: 1rem; padding: 12px; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
         <span>확인</span>

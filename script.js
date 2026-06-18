@@ -80,7 +80,6 @@ const storyChoiceResult = document.getElementById("story-choice-result");
 const storyScrollShell = document.getElementById("story-scroll-shell");
 const storyScrollSections = Array.from(document.querySelectorAll(".story-scroll-section"));
 const spotStageText = document.getElementById("spot-stage-text");
-const spotStatus = document.getElementById("spot-status");
 const spotFoundCount = document.getElementById("spot-found-count");
 const spotTotalCount = document.getElementById("spot-total-count");
 const spotLeftImage = document.getElementById("spot-left-image");
@@ -328,6 +327,13 @@ function resetAiPreview() {
   storyFaceOverlay.classList.add("hidden");
   syntheticFaceOverlay.src = "";
   syntheticFaceOverlay.style.display = "block";
+  const imageGroup = document.getElementById("synthetic-image-group");
+  if (imageGroup) {
+    imageGroup.style.display = "";
+    imageGroup.style.visibility = "";
+    imageGroup.style.opacity = "";
+    imageGroup.classList.remove("fly-out-active");
+  }
   const blockedOverlay = document.getElementById("blocked-post-overlay");
   if (blockedOverlay) {
     blockedOverlay.classList.remove("visible");
@@ -590,12 +596,20 @@ function showOriginalPost() {
   syntheticFaceOverlay.style.display = "block";
   syntheticPostCard.classList.add("hidden");
   
+  const imageGroup = document.getElementById("synthetic-image-group");
+  if (imageGroup) {
+    imageGroup.style.display = "";
+    imageGroup.style.visibility = "";
+    imageGroup.style.opacity = "";
+    imageGroup.classList.remove("fly-out-active");
+  }
+
   const blockedOverlay = document.getElementById("blocked-post-overlay");
   if (blockedOverlay) {
     blockedOverlay.classList.remove("visible");
   }
 
-  storyPostCaption.textContent = "오늘 찍은 원본 사진을 올렸습니다.";
+  storyPostCaption.textContent = "오늘 찍은 사진을 올렸습니다.";
   storyLikeCount.textContent = "❤️ 12";
   storyCommentCount.textContent = "💬 1";
   storyShareCount.textContent = "↗ 공유 0";
@@ -606,6 +620,14 @@ function showSyntheticPost() {
   syntheticFaceOverlay.style.display = "block";
   syntheticPostCard.classList.remove("hidden");
   
+  const imageGroup = document.getElementById("synthetic-image-group");
+  if (imageGroup) {
+    imageGroup.style.display = "";
+    imageGroup.style.visibility = "";
+    imageGroup.style.opacity = "";
+    imageGroup.classList.remove("fly-out-active");
+  }
+
   const blockedOverlay = document.getElementById("blocked-post-overlay");
   if (blockedOverlay) {
     blockedOverlay.classList.remove("visible");
@@ -802,24 +824,7 @@ function applyStoryStepEffect(step) {
 
             badgeProvider.textContent = "삭제 완료";
 
-            // Hide synthetic-face-overlay inside phone with fly-away micro-animation!
-            const syntheticFaceOverlay = document.getElementById("synthetic-face-overlay");
-            if (syntheticFaceOverlay) {
-              const synthShell = syntheticFaceOverlay.closest(".synth-post-shell");
-              const synthCard = syntheticFaceOverlay.closest(".synthetic-post-card");
-              if (synthShell) synthShell.classList.add("allow-overflow");
-              if (synthCard) synthCard.classList.add("allow-overflow");
-
-              syntheticFaceOverlay.classList.add("fly-out-active");
-              syntheticFaceOverlay.addEventListener("animationend", () => {
-                syntheticFaceOverlay.style.display = "none";
-                syntheticFaceOverlay.classList.remove("fly-out-active");
-                if (synthShell) synthShell.classList.remove("allow-overflow");
-                if (synthCard) synthCard.classList.remove("allow-overflow");
-              }, { once: true });
-            }
-            
-            // Show blocked post overlay!
+            // Show blocked post overlay over the synthetic image to block/mask it!
             const blockedOverlay = document.getElementById("blocked-post-overlay");
             if (blockedOverlay) {
               blockedOverlay.classList.add("visible");
@@ -937,6 +942,9 @@ document.addEventListener("click", (e) => {
   btn.classList.add("pressed");
   setTimeout(() => btn.classList.remove("pressed"), 160);
 
+  // Robustly reset and hide choice result before displaying new results to avoid empty bubble rendering
+  storyChoiceResult.classList.add("hidden");
+  storyChoiceResult.textContent = "";
   storyChoiceResult.classList.remove("success", "warning");
 
   // Clean up any existing warning popups or dynamic warning chat bubbles
@@ -952,17 +960,7 @@ document.addEventListener("click", (e) => {
 
   if (btn.dataset.choice === "safe") {
     btn.classList.add("correct");
-    if (syntheticPostCard) {
-      syntheticPostCard.classList.add("slide-away");
-      syntheticPostCard.addEventListener(
-        "transitionend",
-        () => {
-          syntheticPostCard.classList.add("hidden");
-          syntheticPostCard.classList.remove("slide-away");
-        },
-        { once: true }
-      );
-    }
+    // Do NOT slide-away or hide syntheticPostCard, keeping it visible for the upcoming deletion simulator!
     storyChoiceResult.classList.remove("hidden");
     storyChoiceResult.classList.add("success");
     storyChoiceResult.textContent = "정답입니다! 확실하게 증거를 수집한 후 실시간 삭제 센터(디안방) 및 방심위 유포 정지 심의 전송, 계정 보안 설정을 실시간 연계 조치합니다.";
@@ -974,11 +972,11 @@ document.addEventListener("click", (e) => {
     storyChoiceResult.classList.add("warning");
 
     const chatBubble = document.createElement("div");
+    chatBubble.className = "simulated-messenger-room dynamic-append";
 
     if (btn.dataset.choice === "angry") {
       storyChoiceResult.textContent = "댓글로 욕설을 하거나 폭로전을 펼치면 오히려 가해자가 합성 링크를 가린 채 도망치고 사건의 무마를 꾀할 우려가 큽니다. 침착하게 먼저 디지털 증거를 확보해야 합니다.";
 
-      chatBubble.className = "simulated-messenger-room dynamic-append";
       chatBubble.innerHTML = `
         <div class="chat-header">📱 실시간 가해 단톡방 (키보드 배틀)</div>
         <div class="msg-item outgoing">
@@ -987,15 +985,13 @@ document.addEventListener("click", (e) => {
         <div class="msg-item incoming">
           <div class="msg-avatar attacker">😈</div>
           <div class="msg-bubble">
-            <span class="msg-sender attacker-name">유포자</span>
-            어쩔티비? ㅋㅋ 꼬우면 고소해봐~ 누가 유포했는지 증거는 있고? ㅋㅋㅋ
+            <span class="msg-sender attacker-name">유포자</span>어쩔티비? ㅋㅋ 꼬우면 고소해봐~ 누가 유포했는지 증거는 있고? ㅋㅋㅋ
           </div>
         </div>
         <div class="msg-item incoming">
           <div class="msg-avatar troll">👤</div>
           <div class="msg-bubble">
-            <span class="msg-sender">익명_34</span>
-            오 얼굴 주인 직접 등판함? ㅋㅋㅋ 캡쳐완료 개꿀잼 개꿀딱~
+            <span class="msg-sender">익명_34</span>오 얼굴 주인 직접 등판함? ㅋㅋㅋ 캡쳐완료 개꿀잼 개꿀딱~
           </div>
         </div>
         <div class="msg-item outgoing">
@@ -1004,39 +1000,35 @@ document.addEventListener("click", (e) => {
         <div class="msg-item incoming">
           <div class="msg-avatar attacker">😈</div>
           <div class="msg-bubble">
-            <span class="msg-sender attacker-name">유포자</span>
-            응~ 쫄아서 짖는 소리 개꿀잼이고~ 방 터트리고 텔레그램방으로 런하면 그만이야~ ㅅㄱ
+            <span class="msg-sender attacker-name">유포자</span>응~ 쫄아서 짖는 소리 개꿀잼이고~ 방 터트리고 텔레그램방으로 런하면 그만이야~ ㅅㄱ
           </div>
         </div>
         <div class="msg-system-status">⚠️ 가해자가 방을 폭파하고 퇴장하였습니다.</div>
         <div class="chat-guide-red">
-          <strong>🚨 직접 항의의 위험성</strong>
+          <strong>🚨 직접 항의의 위험성</strong><br>
           감정적으로 대항하면 가해자는 증거를 즉각 지우고 방을 탈퇴하여 도망치기 때문에 사법처리가 대단히 어려워집니다. 왼쪽에서 다른 안전한 대응책을 선택하세요!
         </div>
       `;
     } else {
       storyChoiceResult.textContent = "무서워 숨고 아무 조치 없이 혼자 SNS만 삭제해버리면, 백그라운드 클라우드와 음성 텔레그램방 등을 통해 영원히 보이지 않는 곳에서 지속 복제 및 유포될 수 있습니다. 용기를 내어 도움을 받아 유포를 삭제 처리해야 합니다.";
 
-      chatBubble.className = "simulated-messenger-room dynamic-append";
       chatBubble.innerHTML = `
         <div class="chat-header">📱 유포 커뮤니티 실시간 반응</div>
         <div class="msg-item incoming">
           <div class="msg-avatar troll">👤</div>
           <div class="msg-bubble">
-            <span class="msg-sender">익명_98</span>
-            야 얘 SNS 계정 지웠네? ㅋㅋㅋ 쫄아서 도망친 거 보소 ㅋㅋㅋ
+            <span class="msg-sender">익명_98</span>야 얘 SNS 계정 지웠네? ㅋㅋㅋ 쫄아서 도망친 거 보소 ㅋㅋㅋ
           </div>
         </div>
         <div class="msg-item incoming">
           <div class="msg-avatar troll">👤</div>
           <div class="msg-bubble">
-            <span class="msg-sender">익명_12</span>
-            계정 터트리면 뭐하냐 이미 다른 유포방에 다 퍼졌는데 ㅋㅋㅋ 평생 박제 ㅅㄱ
+            <span class="msg-sender">익명_12</span>계정 터트리면 뭐하냐 이미 다른 유포방에 다 퍼졌는데 ㅋㅋㅋ 평생 박제 ㅅㄱ
           </div>
         </div>
         <div class="msg-system-status">⚠️ 불법 합성물이 다수의 익명 서버로 2차 공유되고 있습니다.</div>
         <div class="chat-guide-red">
-          <strong>🚨 무대응 방치의 위험성</strong>
+          <strong>🚨 무대응 방치의 위험성</strong><br>
           아무 조치 없이 SNS만 삭제하고 도망치면 백그라운드에서 2차 유포가 무차별 확산되며 원본 증거 수집도 불가능해집니다. 왼쪽에서 안전한 대응책을 다시 선택하세요!
         </div>
       `;
