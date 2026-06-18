@@ -303,22 +303,7 @@
               <h3 id="narrative-title">시뮬레이터 준비 완료</h3>
               <p id="narrative-desc">오른쪽 스마트폰 화면을 아무 곳이나 클릭(터치)하여 사건 시뮬레이션을 전개하세요.</p>
               
-              <!-- Choice Grid (Moved to Left Column inside narrative card) -->
-              <div class="story-choice-grid hidden" id="narrative-choice-grid" style="margin-top: 20px;">
-                <button type="button" class="secondary-button story-choice" data-choice="angry">
-                  <strong>😡 게시판에 직접 반박하며 격하게 항의하기</strong>
-                  <span>"당장 사과하고 지워라" 댓글을 달며 키보드 배틀을 벌임</span>
-                </button>
-                <button type="button" class="secondary-button story-choice" data-choice="ignore">
-                  <strong>🫣 너무 무서우니 내 SNS 계정 지우고 숨기</strong>
-                  <span>증거도 남기지 않고 즉시 내 SNS를 탈퇴한 채 방치</span>
-                </button>
-                <button type="button" class="secondary-button story-choice" data-choice="safe">
-                  <strong>🛡️ 철저한 채집(PDF/캡처/URL) 후 112 신고 및 전문센터 접수</strong>
-                  <span>화면 캡처, 가해 정보 수집 후 디지털성범죄피해자지원센터 신고 지원 요청</span>
-                </button>
-              </div>
-              <div id="story-choice-result" class="story-choice-result hidden" style="margin-top: 15px;"></div>
+
             </div>
           </div>
 
@@ -461,6 +446,26 @@
                 <div class="story-scroll-section story-scroll-end hidden" data-story-step="response">
                   <div class="sc-header end-title">🛡️ 골든 타임 : 당신의 생존 전략은?</div>
                   <p>머릿속이 하얘지고 분노와 수치심에 손이 떨립니다. 이 급박한 불법 합성 유포 사태에 대처하는 가장 현명하고 완벽한 첫 조치는 무엇일까요?</p>
+
+                  <!-- Choice Grid (Moved to inside smartphone) -->
+                  <div class="story-choice-grid hidden" id="narrative-choice-grid" style="margin-top: 20px;">
+                    <div style="font-size: 0.95rem; font-weight: 800; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                      🛡️ 대처 방안 선택
+                    </div>
+                    <button type="button" class="secondary-button story-choice" data-choice="angry">
+                      <strong>😡 게시판에 직접 반박하며 격하게 항의하기</strong>
+                      <span>"당장 사과하고 지워라" 댓글을 달며 키보드 배틀을 벌임</span>
+                    </button>
+                    <button type="button" class="secondary-button story-choice" data-choice="ignore">
+                      <strong>🫣 너무 무서우니 내 SNS 계정 지우고 숨기</strong>
+                      <span>증거도 남기지 않고 즉시 내 SNS를 탈퇴한 채 방치</span>
+                    </button>
+                    <button type="button" class="secondary-button story-choice" data-choice="safe">
+                      <strong>🛡️ 철저한 채집(PDF/캡처/URL) 후 112 신고 및 전문센터 접수</strong>
+                      <span>화면 캡처, 가해 정보 수집 후 디지털성범죄피해자지원센터 신고 지원 요청</span>
+                    </button>
+                  </div>
+                  <div id="story-choice-result" class="story-choice-result hidden" style="margin-top: 15px;"></div>
                 </div>
               </div>
             </div>

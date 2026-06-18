@@ -686,154 +686,14 @@ function applyStoryStepEffect(step) {
 
   if (step === "deletion") {
     showSyntheticPost();
-    // Inject left selection panel inside #story-narrative-card
+    // Do NOT inject choice buttons on the left column.
+    // Instead, update the left narrative desc to guide the user beautifully.
     const narrativeCard = document.getElementById("story-narrative-card");
     if (narrativeCard) {
-      // Remove any existing selection container to prevent duplicate rendering
-      const existing = narrativeCard.querySelector(".deletion-targets-container");
-      if (existing) existing.remove();
-
-      const targetsContainer = document.createElement("div");
-      targetsContainer.className = "deletion-targets-container dynamic-append";
-      targetsContainer.innerHTML = `
-        <div class="dt-title">📥 긴급 유포 중단 / 삭제 요청 대상 선택</div>
-        <p class="dt-subtitle">아래의 각 기관을 클릭하여 실시간 조치를 신청해 보세요.</p>
-        <div class="dt-grid">
-          <button type="button" class="dt-item-btn" id="btn-target-provider">
-            <div class="dt-icon">🏢</div>
-            <div class="dt-info">
-              <strong class="dt-name">서비스 제공자 <span class="dt-badge-inline" id="badge-provider">삭제 및 차단</span></strong>
-              <span class="dt-desc">정보통신망법 제44조의7에 따른 즉시 임시차단</span>
-            </div>
-          </button>
-          
-          <button type="button" class="dt-item-btn" id="btn-target-center">
-            <div class="dt-icon">🛡️</div>
-            <div class="dt-info">
-              <strong class="dt-name">피해자지원센터 <span class="dt-badge-inline" id="badge-center">피해 지원</span></strong>
-              <span class="dt-desc">상담 연계 및 국가 차원의 상시 모니터링 삭제 지원</span>
-            </div>
-          </button>
-          
-          <button type="button" class="dt-item-btn" id="btn-target-kcsc">
-            <div class="dt-icon">🏛️</div>
-            <div class="dt-info">
-              <strong class="dt-name">방심위 <span class="dt-badge-inline" id="badge-kcsc">긴급 심의</span></strong>
-              <span class="dt-desc">불법 사이트 및 가해 피드에 대한 긴급 접속차단</span>
-            </div>
-          </button>
-          
-          <button type="button" class="dt-item-btn" id="btn-target-police">
-            <div class="dt-icon">🚨</div>
-            <div class="dt-info">
-              <strong class="dt-name">경찰청 <span class="dt-badge-inline" id="badge-police">수사 의뢰</span></strong>
-              <span class="dt-desc">IP 추적 및 채집 정보 증거 송치를 통한 형사 고소</span>
-            </div>
-          </button>
-        </div>
-      `;
-      narrativeCard.appendChild(targetsContainer);
-
-      // Add event listeners to the buttons
-      const btnProvider = targetsContainer.querySelector("#btn-target-provider");
-      const btnCenter = targetsContainer.querySelector("#btn-target-center");
-      const btnKcsc = targetsContainer.querySelector("#btn-target-kcsc");
-      const btnPolice = targetsContainer.querySelector("#btn-target-police");
-
-      const badgeProvider = targetsContainer.querySelector("#badge-provider");
-      const badgeCenter = targetsContainer.querySelector("#badge-center");
-      const badgeKcsc = targetsContainer.querySelector("#badge-kcsc");
-      const badgePolice = targetsContainer.querySelector("#badge-police");
-
-      const delBar = document.getElementById("del-bar");
-      const delPct = document.getElementById("del-pct");
-      const delStep = document.getElementById("del-step");
-      const delDot = document.getElementById("del-dot");
-      const delStatusText = document.getElementById("del-status-text");
-      const delPrompt = document.getElementById("deletion-prompt");
-      const delSection = document.querySelector('[data-story-step="deletion"]');
-
-      btnCenter.addEventListener("click", () => {
-        btnCenter.classList.add("completed");
-        badgeCenter.textContent = "접수 완료";
-        showPushNotification("피해지원센터 접수 완료", "상담 및 유포 모니터링 연계 조치가 등록되었습니다.", "🛡️");
-      });
-
-      btnKcsc.addEventListener("click", () => {
-        btnKcsc.classList.add("completed");
-        badgeKcsc.textContent = "심의 완료";
-        showPushNotification("방심위 심의 신청 완료", "해당 웹사이트 주소(URL)에 대한 긴급 접속 차단 심의가 청구되었습니다.", "🏛️");
-      });
-
-      btnPolice.addEventListener("click", () => {
-        btnPolice.classList.add("completed");
-        badgePolice.textContent = "신고 완료";
-        showPushNotification("경찰청 신고 접수 완료", "사이버 범죄 수사관에 의해 가해자 추적 및 형사 처벌 절차가 개시되었습니다.", "🚨");
-      });
-
-      btnProvider.addEventListener("click", () => {
-        btnProvider.classList.add("completed");
-        btnProvider.style.pointerEvents = "none";
-        badgeProvider.textContent = "조치 중";
-
-        if (delDot) {
-          delDot.classList.add("red");
-        }
-        if (delStatusText) {
-          delStatusText.textContent = "유포 차단 진행 중 (실시간 연계)";
-        }
-
-        let progress = 0;
-        const steps = [
-          { pct: 15, text: "가상의 플랫폼사 정보통신법 제44조의7에 근거한 임시 조치 명령 접수..." },
-          { pct: 35, text: "불법 공유 단톡방 내 합성 파일 원본 파일 경로 추출 중..." },
-          { pct: 60, text: "플랫폼 내 불법 합성물 서버 매칭 필터링 실행 중..." },
-          { pct: 85, text: "실시간 스크래핑 방지 및 인덱싱 완전 삭제 동기화 중..." },
-          { pct: 100, text: "플랫폼 내 합성 사진 차단 및 임시조치 완료!" }
-        ];
-
-        let currentStepIdx = 0;
-        const interval = setInterval(() => {
-          progress += 1;
-          if (progress > 100) progress = 100;
-
-          if (delBar) delBar.style.width = `${progress}%`;
-          if (delPct) delPct.textContent = `${progress}%`;
-
-          if (currentStepIdx < steps.length && progress >= steps[currentStepIdx].pct) {
-            const step = steps[currentStepIdx];
-            if (delStep) delStep.textContent = step.text;
-            currentStepIdx++;
-          }
-
-          if (progress >= 100) {
-            clearInterval(interval);
-            if (delDot) {
-              delDot.classList.remove("red");
-              delDot.classList.add("green");
-            }
-            if (delStatusText) {
-              delStatusText.textContent = "전체 경로 차단 완료 (안전)";
-            }
-            if (delPrompt) {
-              delPrompt.classList.remove("hidden");
-            }
-            if (delSection) {
-              delSection.dataset.completed = "true";
-            }
-
-            badgeProvider.textContent = "삭제 완료";
-
-            // Show blocked post overlay over the synthetic image to block/mask it!
-            const blockedOverlay = document.getElementById("blocked-post-overlay");
-            if (blockedOverlay) {
-              blockedOverlay.classList.add("visible");
-            }
-
-            showPushNotification("임시조치 완료", "서비스 제공자(SNS 플랫폼사)에 의한 게시글 차단 조치가 실시간 반영되었습니다.", "🛡️");
-          }
-        }, 40);
-      });
+      const desc = document.getElementById("narrative-desc");
+      if (desc) {
+        desc.innerHTML = `디지털성범죄피해자지원센터 및 방송통신심의위원회와 긴밀하게 공조하여, 불법 유포된 딥페이크 합성 이미지에 대한 플랫폼 긴급 임시조치 및 삭제 프로토콜을 수행합니다.<br><br><span style="color: #38bdf8; font-weight: 800; animation: pulse 2s infinite; display: inline-block;">👉 오른쪽 스마트폰 화면 내의 기관들을 클릭하여 실시간 긴급 유포 차단을 개시해 주세요!</span>`;
+      }
     }
   }
 
@@ -1006,7 +866,7 @@ document.addEventListener("click", (e) => {
         <div class="msg-system-status">⚠️ 가해자가 방을 폭파하고 퇴장하였습니다.</div>
         <div class="chat-guide-red">
           <strong>🚨 직접 항의의 위험성</strong><br>
-          감정적으로 대항하면 가해자는 증거를 즉각 지우고 방을 탈퇴하여 도망치기 때문에 사법처리가 대단히 어려워집니다. 왼쪽에서 다른 안전한 대응책을 선택하세요!
+          감정적으로 대항하면 가해자는 증거를 즉각 지우고 방을 탈퇴하여 도망치기 때문에 사법처리가 대단히 어려워집니다. 스마트폰 화면에서 다른 안전한 대응책을 선택하세요!
         </div>
       `;
     } else {
@@ -1029,7 +889,7 @@ document.addEventListener("click", (e) => {
         <div class="msg-system-status">⚠️ 불법 합성물이 다수의 익명 서버로 2차 공유되고 있습니다.</div>
         <div class="chat-guide-red">
           <strong>🚨 무대응 방치의 위험성</strong><br>
-          아무 조치 없이 SNS만 삭제하고 도망치면 백그라운드에서 2차 유포가 무차별 확산되며 원본 증거 수집도 불가능해집니다. 왼쪽에서 안전한 대응책을 다시 선택하세요!
+          아무 조치 없이 SNS만 삭제하고 도망치면 백그라운드에서 2차 유포가 무차별 확산되며 원본 증거 수집도 불가능해집니다. 스마트폰 화면에서 안전한 대응책을 다시 선택하세요!
         </div>
       `;
     }
@@ -1375,8 +1235,44 @@ function appendInteractiveRecoveryStages() {
         <span class="deletion-progress-percent" id="del-pct">0%</span>
       </div>
       <p class="deletion-current-step" id="del-step">삭제 요청 대기 중...</p>
-      <div style="width: 100%; margin-top: 12px; padding: 12px; background: rgba(56, 189, 248, 0.06); border: 1px dashed rgba(56, 189, 248, 0.3); border-radius: 8px; text-align: center; color: #38bdf8; font-size: 0.8rem; font-weight: 500; animation: fadeIn 0.4s ease;">
-        👈 왼쪽 화면의 삭제 요청처 중에서 대상을 선택해 주세요.
+      
+      <!-- Deletion Target Selection inside Smartphone -->
+      <div class="deletion-targets-container" style="margin-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 12px;">
+        <div class="dt-title">📥 긴급 유포 중단 / 삭제 요청 대상 선택</div>
+        <p class="dt-subtitle">아래의 각 기관을 클릭하여 실시간 조치를 신청해 보세요.</p>
+        <div class="dt-grid">
+          <button type="button" class="dt-item-btn" id="btn-target-provider">
+            <div class="dt-icon">🏢</div>
+            <div class="dt-info">
+              <strong class="dt-name">서비스 제공자 <span class="dt-badge-inline" id="badge-provider">삭제 및 차단</span></strong>
+              <span class="dt-desc">정보통신망법 제44조의7에 따른 즉시 임시차단</span>
+            </div>
+          </button>
+          
+          <button type="button" class="dt-item-btn" id="btn-target-center">
+            <div class="dt-icon">🛡️</div>
+            <div class="dt-info">
+              <strong class="dt-name">피해자지원센터 <span class="dt-badge-inline" id="badge-center">피해 지원</span></strong>
+              <span class="dt-desc">상담 연계 및 국가 차원의 상시 모니터링 삭제 지원</span>
+            </div>
+          </button>
+          
+          <button type="button" class="dt-item-btn" id="btn-target-kcsc">
+            <div class="dt-icon">🏛️</div>
+            <div class="dt-info">
+              <strong class="dt-name">방심위 <span class="dt-badge-inline" id="badge-kcsc">긴급 심의</span></strong>
+              <span class="dt-desc">불법 사이트 및 가해 피드에 대한 긴급 접속차단</span>
+            </div>
+          </button>
+          
+          <button type="button" class="dt-item-btn" id="btn-target-police">
+            <div class="dt-icon">🚨</div>
+            <div class="dt-info">
+              <strong class="dt-name">경찰청 <span class="dt-badge-inline" id="badge-police">수사 의뢰</span></strong>
+              <span class="dt-desc">IP 추적 및 채집 정보 증거 송치를 통한 형사 고소</span>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
     <div class="click-prompt hidden" id="deletion-prompt">👇 삭제 완료! 다음 단계를 진행하려면 스마트폰 화면을 터치하세요.</div>
@@ -1469,6 +1365,106 @@ function appendInteractiveRecoveryStages() {
 
   // Push to tracking list
   storyScrollSections.push(delSection, privacySection, safeUploadSection);
+
+  // Wire Deletion Buttons & Progress (Step 6)
+  const btnProvider = delSection.querySelector("#btn-target-provider");
+  const btnCenter = delSection.querySelector("#btn-target-center");
+  const btnKcsc = delSection.querySelector("#btn-target-kcsc");
+  const btnPolice = delSection.querySelector("#btn-target-police");
+
+  const badgeProvider = delSection.querySelector("#badge-provider");
+  const badgeCenter = delSection.querySelector("#badge-center");
+  const badgeKcsc = delSection.querySelector("#badge-kcsc");
+  const badgePolice = delSection.querySelector("#badge-police");
+
+  const delBar = delSection.querySelector("#del-bar");
+  const delPct = delSection.querySelector("#del-pct");
+  const delStep = delSection.querySelector("#del-step");
+  const delDot = delSection.querySelector("#del-dot");
+  const delStatusText = delSection.querySelector("#del-status-text");
+  const delPrompt = delSection.querySelector("#deletion-prompt");
+
+  btnCenter.addEventListener("click", () => {
+    btnCenter.classList.add("completed");
+    badgeCenter.textContent = "접수 완료";
+    showPushNotification("피해지원센터 접수 완료", "상담 및 유포 모니터링 연계 조치가 등록되었습니다.", "🛡️");
+  });
+
+  btnKcsc.addEventListener("click", () => {
+    btnKcsc.classList.add("completed");
+    badgeKcsc.textContent = "심의 완료";
+    showPushNotification("방심위 심의 신청 완료", "해당 웹사이트 주소(URL)에 대한 긴급 접속 차단 심의가 청구되었습니다.", "🏛️");
+  });
+
+  btnPolice.addEventListener("click", () => {
+    btnPolice.classList.add("completed");
+    badgePolice.textContent = "신고 완료";
+    showPushNotification("경찰청 신고 접수 완료", "사이버 범죄 수사관에 의해 가해자 추적 및 형사 처벌 절차가 개시되었습니다.", "🚨");
+  });
+
+  btnProvider.addEventListener("click", () => {
+    btnProvider.classList.add("completed");
+    btnProvider.style.pointerEvents = "none";
+    badgeProvider.textContent = "조치 중";
+
+    if (delDot) {
+      delDot.classList.add("red");
+    }
+    if (delStatusText) {
+      delStatusText.textContent = "유포 차단 진행 중 (실시간 연계)";
+    }
+
+    let progress = 0;
+    const steps = [
+      { pct: 15, text: "가상의 플랫폼사 정보통신법 제44조의7에 근거한 임시 조치 명령 접수..." },
+      { pct: 35, text: "불법 공유 단톡방 내 합성 파일 원본 파일 경로 추출 중..." },
+      { pct: 60, text: "플랫폼 내 불법 합성물 서버 매칭 필터링 실행 중..." },
+      { pct: 85, text: "실시간 스크래핑 방지 및 인덱싱 완전 삭제 동기화 중..." },
+      { pct: 100, text: "플랫폼 내 합성 사진 차단 및 임시조치 완료!" }
+    ];
+
+    let currentStepIdx = 0;
+    const interval = setInterval(() => {
+      progress += 1;
+      if (progress > 100) progress = 100;
+
+      if (delBar) delBar.style.width = `${progress}%`;
+      if (delPct) delPct.textContent = `${progress}%`;
+
+      if (currentStepIdx < steps.length && progress >= steps[currentStepIdx].pct) {
+        const step = steps[currentStepIdx];
+        if (delStep) delStep.textContent = step.text;
+        currentStepIdx++;
+      }
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        if (delDot) {
+          delDot.classList.remove("red");
+          delDot.classList.add("green");
+        }
+        if (delStatusText) {
+          delStatusText.textContent = "전체 경로 차단 완료 (안전)";
+        }
+        if (delPrompt) {
+          delPrompt.classList.remove("hidden");
+        }
+        if (delSection) {
+          delSection.dataset.completed = "true";
+        }
+
+        badgeProvider.textContent = "삭제 완료";
+
+        // Show blocked post overlay over the synthetic image to block/mask it!
+        const blockedOverlay = document.getElementById("blocked-post-overlay");
+        if (blockedOverlay) {
+          blockedOverlay.classList.add("visible");
+        }
+
+        showPushNotification("임시조치 완료", "서비스 제공자(SNS 플랫폼사)에 의한 게시글 차단 조치가 실시간 반영되었습니다.", "🛡️");
+      }
+    }, 40);
+  });
 
   // Wire Privacy Checkboxes & Button (Step 7)
   const chkPrivate = privacySection.querySelector("#chk-private");
